@@ -1,0 +1,30 @@
+.example-container-mobile {
+    height: calc(100% - 56px);
+    overflow: auto;
+}
+.example-container {
+    height: calc(100% - 64px);
+    overflow: auto;
+}
+table {
+    width: 100%;
+}
+mat-icon {
+    cursor: pointer;
+}
+.mat-header-cell {
+    font-weight: bold;
+    color:black;
+}
+mat-icon {
+    opacity: 0.6;
+    cursor: pointer;
+}
+div.button {
+    text-align: center;
+    button {
+        background-color: #673ab7;
+        color:white;
+    }
+    
+}

@@ -11,11 +11,20 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserListComponent } from './user-list/user-list.component';
+import { RaceListComponent } from './race-list/race-list.component';
+import { MatTableModule } from '@angular/material';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { RaceDetailsComponent } from './race-details/race-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainNavComponent
+    MainNavComponent,
+    UserListComponent,
+    RaceListComponent,
+    UserDetailsComponent,
+    RaceDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +35,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

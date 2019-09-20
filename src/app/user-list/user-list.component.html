@@ -1,0 +1,36 @@
+<div class=" p-2 button col-4 col-md-4 col-sm-12">
+  <button>+ Add User</button>
+</div>
+<div [ngClass]="(isHandset$ | async) === true?'example-container-mobile':'example-container'" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="user_no">
+      <th mat-header-cell *matHeaderCellDef> User_no </th>
+      <td mat-cell *matCellDef="let element"> {{element.user_no}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="balance">
+      <th mat-header-cell *matHeaderCellDef> Balance </th>
+      <td mat-cell *matCellDef="let element"> {{element.balance}} </td>
+    </ng-container>
+
+    <!-- details Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element"> 
+        <mat-icon [routerLink]="[ '/user',element.user_no]" aria-label="icon">arrow_forward_ios</mat-icon> 
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
