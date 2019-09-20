@@ -13,7 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -40,7 +40,11 @@ import { AddRaceComponent } from './add-race/add-race.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
