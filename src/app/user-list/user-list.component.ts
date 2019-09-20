@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -24,11 +25,13 @@ export class UserListComponent implements OnInit {
     {user_no: 4, name: 'Santosh', balance: 5070, details: 'd'},
     {user_no: 5, name: 'Suresh', balance: 10000, details: 'd'},
   ];
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router) { }
 
   ngOnInit() {
   }
-
+  newUser() {
+    this.router.navigate(['/newuser']);
+  }
 }
 export interface User {
   name: string;

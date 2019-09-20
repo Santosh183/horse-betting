@@ -1,25 +1,31 @@
 <div class=" p-2 button col-4 col-md-4 col-sm-12">
-    <button>+ Create Race</button>
+    <button (click)="newRace()">+ Create Race</button>
   </div>
   <div [ngClass]="(isHandset$ | async) === true?'example-container-mobile':'example-container'" class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
   
-      <!-- Position Column -->
+      <!-- race no Column -->
       <ng-container matColumnDef="race_no">
         <th mat-header-cell *matHeaderCellDef> Race_no </th>
         <td mat-cell *matCellDef="let element"> {{element.race_no}} </td>
       </ng-container>
   
-      <!-- Name Column -->
+      <!-- total horses Column -->
       <ng-container matColumnDef="total_horses">
         <th mat-header-cell *matHeaderCellDef> No of Horses </th>
         <td mat-cell *matCellDef="let element"> {{element.total_horses}} </td>
       </ng-container>
   
-      <!-- Weight Column -->
+      <!-- date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Date </th>
         <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
+
+      <!-- status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
       </ng-container>
   
       <!-- details Column -->

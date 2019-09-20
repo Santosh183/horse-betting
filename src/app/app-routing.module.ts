@@ -4,6 +4,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import {RaceDetailsComponent} from './race-details/race-details.component';
+import { AddRaceComponent } from './add-race/add-race.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: 'race/:id',
     component: RaceDetailsComponent
+  },
+  {
+    path: 'newuser',
+    component: AddUserComponent
+  },
+  {
+    path: 'newrace',
+    component: AddRaceComponent
   }
 ];
 

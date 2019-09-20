@@ -16,6 +16,8 @@ import { RaceListComponent } from './race-list/race-list.component';
 import { MatTableModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { AddRaceComponent } from './add-race/add-race.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { RaceDetailsComponent } from './race-details/race-details.component';
     UserListComponent,
     RaceListComponent,
     UserDetailsComponent,
-    RaceDetailsComponent
+    RaceDetailsComponent,
+    AddUserComponent,
+    AddRaceComponent
   ],
   imports: [
     BrowserModule,
