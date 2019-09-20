@@ -18,6 +18,9 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddRaceComponent } from './add-race/add-race.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { AddBalanceComponent } from './add-balance/add-balance.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { AddRaceComponent } from './add-race/add-race.component';
     UserDetailsComponent,
     RaceDetailsComponent,
     AddUserComponent,
-    AddRaceComponent
+    AddRaceComponent,
+    EditUserComponent,
+    AddBalanceComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
