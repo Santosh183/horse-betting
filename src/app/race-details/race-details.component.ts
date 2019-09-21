@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-race-details',
@@ -15,9 +16,12 @@ export class RaceDetailsComponent implements OnInit {
     {rank: 4, entry_Seq: 1, user_no: 12, name: 'Dhananjay', amount: 8657, details: 'd'},
     {rank: 5, entry_Seq: 1, user_no: 13, name: 'Shrusti', amount: 1351, details: 'd'},
   ];
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+  navigateToAddEntry() {
+    this.router.navigate(['/race', 2, 'newentry']);
   }
 
 }

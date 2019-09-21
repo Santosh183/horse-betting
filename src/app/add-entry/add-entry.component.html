@@ -1,3 +1,68 @@
-<p>
-  add-entry works!
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <span class="info">Adding New Entry</span>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>User No.</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let user of users" [value]="user.userNumber">
+        {{user.userNumber}}
+      </mat-option>
+    </mat-select>
+    <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>User Name</mat-label>
+    <input type="text" disabled matInput placeholder="User Name">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Betting Type</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let bet of bets" [value]="bet">
+        {{bet}}
+      </mat-option>
+    </mat-select>
+    <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Invested Amount</mat-label>
+    <input type="number" matInput placeholder="Enter amount to invest">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Rate</mat-label>
+    <input type="number" matInput placeholder="Rate">
+    <mat-hint> mostly it's very small </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Tax</mat-label>
+    <input type="number" matInput placeholder="Tax ">
+    <mat-hint> % charge</mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>NO of horses</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let horse of horses" [value]="horse">
+        {{horse}}
+      </mat-option>
+    </mat-select>
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>z 
+<p class="butttons col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+    <button class="submit">Submit</button>
+    <button class="cancel">Cancel</button>
 </p>

@@ -8,6 +8,7 @@ import { AddRaceComponent } from './add-race/add-race.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EntryDetailsComponent } from './entry-details/entry-details.component';
+import { AddEntryComponent } from './add-entry/add-entry.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'race/:raceNumber/entry/:entry_seq',
     component: EntryDetailsComponent
+  },
+  {
+    path: 'race/:raceNumber/newentry',
+    component: AddEntryComponent
   }
 ];
 

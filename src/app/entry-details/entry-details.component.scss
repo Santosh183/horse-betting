@@ -1,0 +1,43 @@
+mat-icon {
+    cursor: pointer;
+}
+.mat-header-cell {
+    font-weight: bold;
+    color:black;
+}
+mat-icon {
+    opacity: 0.6;
+    cursor: pointer;
+}
+.info {
+    padding: 5px 0px;
+    div {
+        padding: 5px 0px;
+    }
+    div.col-6,div.col-sm-12,div.col-md-4,div.col-lg-4 {
+        float:left;
+    }
+    div.buttons {
+        clear:left;
+        button{
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+        button.edit-entry{
+            background: #673ab7; 
+            color:white;
+        }
+        button.back{
+            background: #40822b;
+            color:white;
+        }
+        button.delete-entry{
+            background: #ce6565;
+            color:white;
+        }
+    }
+    span.label {
+        font-weight: 600;
+        color: #673ab7;
+    }
+}

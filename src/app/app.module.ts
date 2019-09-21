@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
 import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
-         MatNativeDateModule, MatDialogModule } from '@angular/material';
+         MatNativeDateModule, MatDialogModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -50,7 +50,7 @@ import { EditRaceComponent } from './edit-race/edit-race.component';
     AddEntryComponent,
     DeleteEntryComponent,
     DeleteRaceComponent,
-    EditRaceComponent
+    EditRaceComponent,
   ],
   entryComponents: [
     DeleteUserComponent,
@@ -73,7 +73,9 @@ import { EditRaceComponent } from './edit-race/edit-race.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatOptionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

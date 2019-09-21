@@ -40,3 +40,10 @@ mat-icon {
         color: #673ab7;
     }
 }
+.entries {
+    height: calc(100% - 195px);
+    overflow: auto;
+}
+.main-container {
+    height: calc(100% - 60px);
+}
