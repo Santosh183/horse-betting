@@ -8,9 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AddUserComponent implements OnInit {
 
   constructor() { }
-  minDate = new Date();
   ngOnInit() {
-    this.minDate = new Date();
+
   }
 
 }

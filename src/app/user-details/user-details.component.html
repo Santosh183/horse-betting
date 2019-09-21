@@ -15,8 +15,7 @@
     <span class="data col-6 p-0">{{user.balance}}</span>
   </div>
   <div class="buttons col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <button class="edit mr-1 ">Edit</button>
-    <button class="delete mr-1">Delete</button>
-    <button class="add-balance">Add balance</button>
+    <button (click)="navigateToEditUser()" class="edit mr-1 ">Edit</button>
+    <button (click)="openEditDialog()" class="delete mr-1">Delete</button>
   </div>
 </div>

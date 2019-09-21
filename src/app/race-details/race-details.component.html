@@ -1,3 +1,64 @@
-<p>
-  race-details works!
-</p>
+<div class="container">
+  <div class="info col-12">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+      <span class="label">Race No:</span>
+      <span class="data">12</span>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Total Horses: </span>
+      <span class="data"> 8</span>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Race Date:</span>
+      <span class="data">16-09-2019</span>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Winners </span>
+      <span class="data">5, 6, 7</span>
+    </div>
+    <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
+      <button class="add-entry">+ Add Entry</button>
+      <button class="complete-race">Complete Race</button>
+      <button class="delete-race">Delete Race</button>
+    </div>
+  </div>
+  <div class="entries">
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- rank Column -->
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef> Rank </th>
+        <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
+      </ng-container>
+  
+      <!-- user no Column -->
+      <ng-container matColumnDef="user_no">
+        <th mat-header-cell *matHeaderCellDef> User No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.user_no}} </td>
+      </ng-container>
+  
+      <!-- user name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container>
+  
+      <!-- details Column -->
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef> Details </th>
+        <td mat-cell *matCellDef="let element"> 
+          <mat-icon [routerLink]="[ '/race',element.entry_Seq,'entry',element.entry_Seq]" aria-label="icon">arrow_forward_ios</mat-icon> 
+        </td> 
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

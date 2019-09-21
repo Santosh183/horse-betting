@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+}
+mat-icon {
+    cursor: pointer;
+}
+.mat-header-cell {
+    font-weight: bold;
+    color:black;
+}
+mat-icon {
+    opacity: 0.6;
+    cursor: pointer;
+}
+.info {
+    padding: 5px 0px;
+    div {
+        padding: 5px 0px;
+    }
+    div.buttons {
+        button{
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+        button.add-entry{
+            background: #673ab7; 
+            color:white;
+        }
+        button.complete-race{
+            background: #40822b;
+            color:white;
+        }
+        button.delete-race{
+            background: #ce6565;
+            color:white;
+        }
+    }
+    span.label {
+        font-weight: 600;
+        color: #673ab7;
+    }
+}

@@ -6,6 +6,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import {RaceDetailsComponent} from './race-details/race-details.component';
 import { AddRaceComponent } from './add-race/add-race.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { EntryDetailsComponent } from './entry-details/entry-details.component';
 
 const routes: Routes = [
   {
@@ -26,7 +28,7 @@ const routes: Routes = [
     component: UserDetailsComponent
   },
   {
-    path: 'race/:id',
+    path: 'race/:raceNumber',
     component: RaceDetailsComponent
   },
   {
@@ -34,8 +36,16 @@ const routes: Routes = [
     component: AddUserComponent
   },
   {
+    path: 'edituser/:userNumber',
+    component: EditUserComponent
+  },
+  {
     path: 'newrace',
     component: AddRaceComponent
+  },
+  {
+    path: 'race/:raceNumber/entry/:entry_seq',
+    component: EntryDetailsComponent
   }
 ];
 

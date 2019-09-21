@@ -13,14 +13,23 @@ import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
-import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
+         MatNativeDateModule, MatDialogModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddRaceComponent } from './add-race/add-race.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { AddBalanceComponent } from './add-balance/add-balance.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { FormsModule } from '@angular/forms';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { EntryDetailsComponent } from './entry-details/entry-details.component';
+import { EditEntryComponent } from './edit-entry/edit-entry.component';
+import { AddEntryComponent } from './add-entry/add-entry.component';
+import { DeleteEntryComponent } from './delete-entry/delete-entry.component';
+import { DeleteRaceComponent } from './delete-race/delete-race.component';
+import { EditRaceComponent } from './edit-race/edit-race.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +41,19 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     RaceDetailsComponent,
     AddUserComponent,
     AddRaceComponent,
+    DeleteUserComponent,
+    AddBalanceComponent,
+    ConfirmModalComponent,
     EditUserComponent,
+    EntryDetailsComponent,
+    EditEntryComponent,
+    AddEntryComponent,
+    DeleteEntryComponent,
+    DeleteRaceComponent,
+    EditRaceComponent
+  ],
+  entryComponents: [
+    DeleteUserComponent,
     AddBalanceComponent,
     ConfirmModalComponent
   ],
@@ -50,7 +71,9 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
