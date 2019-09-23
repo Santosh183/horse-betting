@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { CompleteRaceComponent } from '../complete-race/complete-race.component';
 
 @Component({
   selector: 'app-race-details',
@@ -16,12 +18,21 @@ export class RaceDetailsComponent implements OnInit {
     {rank: 4, entry_Seq: 1, user_no: 12, name: 'Dhananjay', amount: 8657, details: 'd'},
     {rank: 5, entry_Seq: 1, user_no: 13, name: 'Shrusti', amount: 1351, details: 'd'},
   ];
-  constructor(private router: Router) { }
+  constructor(private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
   }
   navigateToAddEntry() {
     this.router.navigate(['/race', 2, 'newentry']);
+  }
+  openCompleteDialog(): void {
+    const dialogRef = this.dialog.open(CompleteRaceComponent, {
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result); // return true on confirmation
+    });
   }
 
 }

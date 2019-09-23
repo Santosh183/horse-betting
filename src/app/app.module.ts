@@ -30,6 +30,7 @@ import { AddEntryComponent } from './add-entry/add-entry.component';
 import { DeleteEntryComponent } from './delete-entry/delete-entry.component';
 import { DeleteRaceComponent } from './delete-race/delete-race.component';
 import { EditRaceComponent } from './edit-race/edit-race.component';
+import { CompleteRaceComponent } from './complete-race/complete-race.component';
 
 @NgModule({
   declarations: [
@@ -51,11 +52,13 @@ import { EditRaceComponent } from './edit-race/edit-race.component';
     DeleteEntryComponent,
     DeleteRaceComponent,
     EditRaceComponent,
+    CompleteRaceComponent,
   ],
   entryComponents: [
     DeleteUserComponent,
     AddBalanceComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    CompleteRaceComponent
   ],
   imports: [
     BrowserModule,

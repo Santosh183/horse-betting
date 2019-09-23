@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Do You want to delete user?</h1>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>First</mat-label>
+    <mat-select [(ngModel)]="winners.first">
+      <mat-option *ngFor="let horse of horses" [value]="horse">
+        {{horse}}
+      </mat-option>
+    </mat-select>
+    <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Second</mat-label>
+    <mat-select [(ngModel)]="winners.second">
+      <mat-option *ngFor="let horse of horses" [value]="horse">
+        {{horse}}
+      </mat-option>
+    </mat-select>
+    <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Third</mat-label>
+    <mat-select [(ngModel)]="winners.third">
+      <mat-option *ngFor="let horse of horses" [value]="horse">
+        {{horse}}
+      </mat-option>
+    </mat-select>
+    <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<div mat-dialog-actions>
+  <button class="yes" mat-button [mat-dialog-close]="winners" cdkFocusInitial>Complete</button>
+  <button class="no" mat-button (click)="onNoClick()">Cancel</button>
+</div>

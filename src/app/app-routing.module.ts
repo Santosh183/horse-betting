@@ -9,6 +9,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EntryDetailsComponent } from './entry-details/entry-details.component';
 import { AddEntryComponent } from './add-entry/add-entry.component';
+import { EditEntryComponent } from './edit-entry/edit-entry.component';
 
 const routes: Routes = [
   {
@@ -51,7 +52,11 @@ const routes: Routes = [
   {
     path: 'race/:raceNumber/newentry',
     component: AddEntryComponent
-  }
+  },
+  {
+    path: 'race/:raceNumber/entry/:entry_seq/edit',
+    component: EditEntryComponent
+  },
 ];
 
 @NgModule({

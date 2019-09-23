@@ -19,7 +19,7 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private router: Router) {}
 
-  openEditDialog(): void {
+  openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteUserComponent, {
       data: {userNumber: this.user.userNumber, userName: this.user.userName, balance: this.user.balance}
     });

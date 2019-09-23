@@ -36,9 +36,9 @@
       <span class="data">5, 6, 7</span>
     </div>            
     <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
-      <button class="edit-entry"> Edit Entry</button>
+      <button (click)="navigateToEditEntry()" class="edit-entry"> Edit Entry</button>
       <button class="delete-entry">Delete Entry</button>
-      <button class="back">Back</button>
+      <button (click)="backToEnrtries()" class="back">Back</button>
     </div>
   </div>
 </div>
