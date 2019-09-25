@@ -22,7 +22,7 @@ import { AddRaceComponent } from './add-race/add-race.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { AddBalanceComponent } from './add-balance/add-balance.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EntryDetailsComponent } from './entry-details/entry-details.component';
 import { EditEntryComponent } from './edit-entry/edit-entry.component';
@@ -56,6 +56,8 @@ import { CompleteRaceComponent } from './complete-race/complete-race.component';
   ],
   entryComponents: [
     DeleteUserComponent,
+    DeleteEntryComponent,
+    DeleteRaceComponent,
     AddBalanceComponent,
     ConfirmModalComponent,
     CompleteRaceComponent
@@ -76,6 +78,7 @@ import { CompleteRaceComponent } from './complete-race/complete-race.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     MatSelectModule,
     MatOptionModule

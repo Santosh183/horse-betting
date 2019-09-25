@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-entry',
@@ -21,10 +22,14 @@ export class EditEntryComponent implements OnInit {
     'FHP', 'SHP', 'THP', 'RANK', 'WINNER'
   ];
   horses: number[] = [1, 2, 3, 4, 5, 6, 7, 8]; // this array shoud be generated automatically from total horses.
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
   }
+  goBack() {
+    this.location.back();
+  }
+
 
 }
 

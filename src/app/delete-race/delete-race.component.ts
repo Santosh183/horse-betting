@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { DeleteUserComponent } from '../delete-user/delete-user.component';
 
 @Component({
   selector: 'app-delete-race',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteRaceComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<DeleteUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit() {
+
   }
 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+export interface DialogData {
+  animal: string;
+  name: string;
 }

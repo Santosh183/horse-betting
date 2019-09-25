@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { CompleteRaceComponent } from '../complete-race/complete-race.component';
+import { DeleteRaceComponent } from '../delete-race/delete-race.component';
 
 @Component({
   selector: 'app-race-details',
@@ -26,11 +27,20 @@ export class RaceDetailsComponent implements OnInit {
     this.router.navigate(['/race', 2, 'newentry']);
   }
   openCompleteDialog(): void {
-    const dialogRef = this.dialog.open(CompleteRaceComponent, {
+    const dialogRefComplete = this.dialog.open(CompleteRaceComponent, {
       data: {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRefComplete.afterClosed().subscribe(result => {
+      console.log(result); // return true on confirmation
+    });
+  }
+  openDeleteDialog(): void {
+    const dialogRefDelete = this.dialog.open(DeleteRaceComponent, {
+      data: { } // pass some data of race so that we can delete correct race
+    });
+
+    dialogRefDelete.afterClosed().subscribe(result => {
       console.log(result); // return true on confirmation
     });
   }

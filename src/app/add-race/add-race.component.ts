@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-race',
@@ -8,11 +9,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class AddRaceComponent implements OnInit {
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   minDate = new Date();
   ngOnInit() {
     this.minDate = new Date();
+  }
+  goBack() {
+    this.location.back();
   }
 
 }

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Do You want to delete user?</h1>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>First</mat-label>
     <mat-select [(ngModel)]="winners.first">
@@ -10,7 +10,7 @@
     <mat-hint></mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>Second</mat-label>
     <mat-select [(ngModel)]="winners.second">
@@ -21,7 +21,7 @@
     <mat-hint></mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>Third</mat-label>
     <mat-select [(ngModel)]="winners.third">
@@ -30,6 +30,28 @@
       </mat-option>
     </mat-select>
     <mat-hint></mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
+  <mat-form-field>
+    <mat-label>Cancelled</mat-label>
+    <mat-select [formControl]="toppings" multiple>
+      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</p>
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
+  <mat-form-field appearance="legacy">
+    <mat-label>-% rank</mat-label>
+    <input type="number" matInput placeholder="% rank cut">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
+  <mat-form-field appearance="legacy">
+    <mat-label>-% winner</mat-label>
+    <input type="number" matInput placeholder="% winner cut">
+    <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <div mat-dialog-actions>
