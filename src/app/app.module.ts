@@ -13,6 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
          MatNativeDateModule, MatDialogModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
@@ -31,6 +32,10 @@ import { DeleteEntryComponent } from './delete-entry/delete-entry.component';
 import { DeleteRaceComponent } from './delete-race/delete-race.component';
 import { EditRaceComponent } from './edit-race/edit-race.component';
 import { CompleteRaceComponent } from './complete-race/complete-race.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -64,7 +69,6 @@ import { CompleteRaceComponent } from './complete-race/complete-race.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
@@ -81,7 +85,12 @@ import { CompleteRaceComponent } from './complete-race/complete-race.component';
     ReactiveFormsModule,
     MatDialogModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

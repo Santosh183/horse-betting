@@ -1,21 +1,26 @@
-<div class="info-container container col-12">
-  <div class="heading col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <span class="info"> User Details</span>
-  </div>
-  <div class="number col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <span class="label mr-1 col-6 p-0">User No:</span>
-    <span class="data col-6 p-0">{{user.userNumber}}</span>
-  </div>
-  <div class="name col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <span class="label mr-1 col-6 p-0">User Name:</span>
-    <span class="data col-6 p-0">{{user.userName}}</span>
-  </div>
-  <div class="balance col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <span class="label mr-1  col-6 p-0">Balance:</span>
-    <span class="data col-6 p-0">{{user.balance}}</span>
-  </div>
-  <div class="buttons col-12 col-md-6 col-lg-6 col-sm-12 p-3">
-    <button (click)="navigateToEditUser()" class="edit mr-1 ">Edit</button>
-    <button (click)="openDeleteDialog()" class="delete mr-1">Delete</button>
-  </div>
+<div *ngIf="user.userName === ''; else data" class="info-container container col-12">
+  <mat-spinner></mat-spinner>
 </div>
+<ng-template #data>
+  <div  class="info-container container col-12">
+    <div class="heading col-12 col-md-6 col-lg-6 col-sm-12 p-3">
+      <span class="info"> User Details</span>
+    </div>
+    <div class="number col-12 col-md-6 col-lg-6 col-sm-12 p-3">
+      <span class="label mr-1 col-6 p-0">User No:</span>
+      <span class="data col-6 p-0">{{user.userNumber}}</span>
+    </div>
+    <div class="name col-12 col-md-6 col-lg-6 col-sm-12 p-3">
+      <span class="label mr-1 col-6 p-0">User Name:</span>
+      <span class="data col-6 p-0">{{user.userName}}</span>
+    </div>
+    <div class="balance col-12 col-md-6 col-lg-6 col-sm-12 p-3">
+      <span class="label mr-1  col-6 p-0">Balance:</span>
+      <span class="data col-6 p-0">{{user.balance}}</span>
+    </div>
+    <div class="buttons col-12 col-md-6 col-lg-6 col-sm-12 p-3">
+      <button (click)="navigateToEditUser()" class="edit mr-1 ">Edit</button>
+      <button (click)="openDeleteDialog()" class="delete mr-1">Delete</button>
+    </div>
+  </div>
+</ng-template>
