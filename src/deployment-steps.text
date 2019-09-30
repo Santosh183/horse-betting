@@ -1,0 +1,10 @@
+1) first need to install angular-cli-ghpages using npm i -g angular-cli-ghpages --save
+2) then ng build --prod --base-href "https://username.github.io/repository_name/"
+3) then make sure that everything is come directly under dist folder. if dist has subfolder then manually
+   cut everything and paste it directly in dist folder.
+4) and finally run just : angular-cli-ghpages
+
+
+prerequisite: 1) repository must be public
+              2) environment.ts must be up to date with firebase cofiguration
+              3) must enable github pages from repository setting.
