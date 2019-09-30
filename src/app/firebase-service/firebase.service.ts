@@ -17,4 +17,7 @@ export class FirebaseService {
   getUser(id: any) {
     return this.firestore.collection('users', ref => ref.where('userNumber', '==', Number(id))).snapshotChanges();
   }
+  deleteUser(id: any) {
+    return this.firestore.doc('users/' + id).delete();
+  }
 }

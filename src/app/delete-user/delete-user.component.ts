@@ -9,7 +9,7 @@ export class DeleteUserComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
 
@@ -19,10 +19,6 @@ export class DeleteUserComponent implements OnInit {
     this.dialogRef.close();
   }
 
-}
-export interface DialogData {
-  animal: string;
-  name: string;
 }
 
 

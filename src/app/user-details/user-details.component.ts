@@ -16,32 +16,19 @@ export class UserDetailsComponent implements OnInit {
     userName: '',
     balance: null
   };
-
+  currentUserId: any;
   constructor(public dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private firebase: FirebaseService) {
   }
-  /*
+
   ngOnInit() {
     this.user.userNumber = this.route.snapshot.params['id'];
-    const s = this.firebase.getUsers();
-    s.subscribe(
-      (users) => {
-        let temp: any;
-        temp = users.filter(e => {
-          return e.payload.doc.data()[ 'userNumber'] == this.user.userNumber;
-        });
-        this.user.userNumber = temp.payload.doc.data()[ 'userNumber'];
-        this.user.userName = temp.payload.doc.data()[ 'userName'];
-        this.user.balance = temp.payload.doc.data()[ 'userBalance'];
-      }
-    );
-  } */
-  ngOnInit() {
-    this.user.userNumber = this.route.snapshot.params['id'];
+    this.currentUserId = null;
     const s = this.firebase.getUser(this.user.userNumber);
     s.subscribe(
       (user: any) => {
        this.user =  user.map(e => {
+          this.currentUserId = e.payload.doc.id;
           return {
             userNumber: e.payload.doc.data()[ 'userNumber'],
             userName: e.payload.doc.data()[ 'userName'],
@@ -57,11 +44,17 @@ export class UserDetailsComponent implements OnInit {
   }
   openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteUserComponent, {
-      data: {userNumber: this.user.userNumber, userName: this.user.userName, balance: this.user.balance}
+      data: {userNumber: this.user.userNumber}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result); // return true on confirmation
+      if ( result === true) {
+        this.firebase.deleteUser(this.currentUserId).then(
+          () => {
+            this.router.navigate(['/userlist']);
+          }
+        );
+       }
     });
   }
   navigateToEditUser() {
