@@ -20,4 +20,7 @@ export class FirebaseService {
   deleteUser(id: any) {
     return this.firestore.doc('users/' + id).delete();
   }
+  editUser(id: any, updatedRecord: any) {
+    return this.firestore.doc('users/' + id).update(updatedRecord);
+  }
 }

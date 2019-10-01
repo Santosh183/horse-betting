@@ -19,7 +19,7 @@ export class AddEntryComponent implements OnInit {
     }
   ];
   bets: any[] = [
-    'FHP', 'SHP', 'THP', 'RANK', 'WINNER'
+     'SHP', 'THP', 'RANK', 'WINNER'
   ];
   horses: number[] = [1, 2, 3, 4, 5, 6, 7, 8]; // this array shoud be generated automatically from total horses.
   constructor(private location: Location) { }
