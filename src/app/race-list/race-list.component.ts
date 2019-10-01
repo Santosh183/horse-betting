@@ -4,6 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../firebase-service/firebase.service';
 
 @Component({
   selector: 'app-race-list',
@@ -18,17 +19,39 @@ export class RaceListComponent implements OnInit {
     shareReplay()
   );
 
-  displayedColumns = ['race_no', 'total_horses', 'date', 'status', 'details'];
-  dataSource: Race[] = [
-    {race_no: 1, total_horses: 8,  date: '12-05-1990', status: 'pending', details: 'd'},
-    {race_no: 2, total_horses: 10, date: '12-05-1990', status: 'completed', details: 'd'},
-    {race_no: 3, total_horses: 14, date: '12-05-1990', status: 'pending', details: 'd'},
-    {race_no: 4, total_horses: 12, date: '12-05-1990', status: 'completed', details: 'd'},
-    {race_no: 5, total_horses: 13, date: '12-05-1990', status: 'pending', details: 'd'},
-  ];
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) { }
+  displayedColumns = ['raceNumber', 'raceHorses', 'raceDate', 'status', 'details'];
+  dataSource: Race[] = [];
+  /*
+    [
+      {raceNumber: 1, raceHorses: 8,  raceDate: '12-05-1990', status: 'pending', details: 'd'},
+      {raceNumber: 2, raceHorses: 10, raceDate: '12-05-1990', status: 'completed', details: 'd'},
+      {raceNumber: 3, raceHorses: 14, raceDate: '12-05-1990', status: 'pending', details: 'd'},
+      {raceNumber: 4, raceHorses: 12, raceDate: '12-05-1990', status: 'completed', details: 'd'},
+      {raceNumber: 5, raceHorses: 13, raceDate: '12-05-1990', status: 'pending', details: 'd'},
+    ]; */
+
+  constructor(private breakpointObserver: BreakpointObserver, private firebase: FirebaseService,
+              private router: Router) { }
 
   ngOnInit() {
+    const s = this.firebase.getRaces();
+    s.subscribe(
+    (races) => {
+      this.dataSource = races.map(e => {
+            return {
+              raceHorses: e.payload.doc.data()[ 'raceHorses'],
+              raceNumber: e.payload.doc.data()[ 'raceNumber'],
+              raceDate: this.convertToDate(e.payload.doc.data()[ 'raceDate']),
+              status: e.payload.doc.data()[ 'status'],
+              details: 'd'
+            };
+        });
+      }
+    );
+  }
+  convertToDate(timestamp: any) {
+    const d =  new Date(timestamp.seconds * 1000).toISOString().slice(0, 10).split('-');
+    return d[2] + '-' + d[1] + '-' + d[0];
   }
   newRace() {
     this.router.navigate(['/newrace']);
@@ -36,9 +59,9 @@ export class RaceListComponent implements OnInit {
 
 }
 export interface Race {
-  total_horses: number;
-  race_no: number;
-  date: string;
+  raceHorses: number;
+  raceNumber: number;
+  raceDate: string;
   status: 'pending' | 'completed';
   details: string;
 }

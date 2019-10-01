@@ -23,4 +23,9 @@ export class FirebaseService {
   editUser(id: any, updatedRecord: any) {
     return this.firestore.doc('users/' + id).update(updatedRecord);
   }
+
+  /* **************** race methods ******************* */
+  getRaces() {
+    return this.firestore.collection('races').snapshotChanges();
+  }
 }
