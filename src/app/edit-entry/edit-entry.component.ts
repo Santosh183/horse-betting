@@ -15,6 +15,7 @@ export class EditEntryComponent implements OnInit {
      'SHP', 'THP', 'RANK', 'WINNER'
   ];
   currentRaceId: any;
+  currentEntryId: any;
   race: any = {
     raceHorses: null
   };
@@ -35,7 +36,9 @@ export class EditEntryComponent implements OnInit {
                private router: Router, private firebase: FirebaseService ) {}
 
   ngOnInit() {
+
     this.currentRaceId = this.route.snapshot.params.raceId;
+    this.currentEntryId = this.route.snapshot.params.entryId;
 
     const s = this.firebase.getRace(this.currentRaceId);
     s.subscribe(
@@ -64,29 +67,40 @@ export class EditEntryComponent implements OnInit {
       }
     );
 
+    const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
+    entries.subscribe(
+        (entry: any) => {
 
+          console.log(entry.payload.data());
+          this.entry =  entry.payload.data();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
 
+  selectUser() {
+    for(let i=0; i< this.users.length; i++) {
 
-
-}
-
-selectUser() {
-  for(let i=0; i< this.users.length; i++) {
-
-    if ( this.users[i].userNumber === this.entry.userNumber) {
-      this.entry.userName = this.users[i].userName;
+      if ( this.users[i].userNumber === this.entry.userNumber) {
+        this.entry.userName = this.users[i].userName;
+      }
     }
   }
-}
+
+  updateEntry() {
+    this.firebase.updateEntry(this.currentRaceId, this.currentEntryId, this.entry).then(
+      () => {
+        console.log('entry modified');
+        this.location.back();
+      }
+    );
+  }
 
   goBack() {
     this.location.back();
   }
 
 
-}
-
-interface User {
-  userNumber: number;
-  userName: string;
 }

@@ -36,8 +36,8 @@
       <span class="data">{{entry.horseNumber}}</span>
     </div>            
     <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
-      <button (click)="navigateToEditEntry()" class="edit-entry"> Edit Entry</button>
-      <button (click)="openDeleteDialog()" class="delete-entry">Delete Entry</button>
+      <button *ngIf="race.status == 'pending'" (click)="navigateToEditEntry()" class="edit-entry"> Edit Entry</button>
+      <button *ngIf="race.status == 'pending'" (click)="openDeleteDialog()" class="delete-entry">Delete Entry</button>
       <button (click)="backToEnrtries()" class="back">Back</button>
     </div>
   </div>

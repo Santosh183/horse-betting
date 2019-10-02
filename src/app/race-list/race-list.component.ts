@@ -44,8 +44,10 @@ export class RaceListComponent implements OnInit {
     );
   }
   convertToDate(timestamp: any) {
-    const d =  new Date(timestamp.seconds * 1000).toISOString().slice(0, 10).split('-');
-    return d[2] + '-' + d[1] + '-' + d[0];
+    let d =  new Date(timestamp.seconds * 1000);
+    d = new Date(d.getTime() + Math.abs(d.getTimezoneOffset() * 60000));
+    const temp = d.toISOString().slice(0, 10).split('-');
+    return temp[2] + '-' + temp[1] + '-' + temp[0];
   }
   newRace() {
     this.router.navigate(['/newrace']);

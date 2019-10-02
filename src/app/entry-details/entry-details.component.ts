@@ -15,6 +15,9 @@ export class EntryDetailsComponent implements OnInit {
   entry: any = {
 
   };
+  race: any = {
+
+  };
   currentRaceId: any;
   currentEntryId: any;
   constructor(private router: Router, private location: Location, private route: ActivatedRoute,
@@ -23,6 +26,13 @@ export class EntryDetailsComponent implements OnInit {
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
     this.currentEntryId = this.route.snapshot.params.entryId;
+
+    this.firebase.getRace(this.currentRaceId).subscribe(
+      (race) => {
+        this.race.status = race.payload.data()["status"];
+      }
+    );
+
     const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
     entries.subscribe(
         (entry: any) => {
@@ -41,6 +51,7 @@ export class EntryDetailsComponent implements OnInit {
   backToEnrtries() {
     this.location.back();
   }
+
   openDeleteDialog(): void {
     const dialogRefDelete = this.matdialog.open(DeleteEntryComponent, {
       data: { } // pass some data of race so that we can delete correct entry
@@ -48,7 +59,18 @@ export class EntryDetailsComponent implements OnInit {
 
     dialogRefDelete.afterClosed().subscribe(result => {
       console.log(result); // return true on confirmation
+      if ( result === true) {
+        this.deleteEntry();
+      }
     });
+  }
+  deleteEntry() {
+    this.firebase.deleteEntry(this.currentRaceId, this.currentEntryId).then(
+      () => {
+        console.log('entry modified');
+        this.location.back();
+      }
+    );
   }
 
 }

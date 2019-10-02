@@ -28,8 +28,14 @@ export class FirebaseService {
   getRaces() {
     return this.firestore.collection('races').snapshotChanges();
   }
+  addRace(race: any) {
+    return this.firestore.collection('races').add(race);
+  }
   getRace(id: any) {
     return this.firestore.doc('races/' + id).snapshotChanges();
+  }
+  deleteRace(id: any) {
+    return this.firestore.doc('races/' + id).delete();
   }
 
   /* **************** entry methods ******************* */
@@ -45,7 +51,7 @@ export class FirebaseService {
   deleteEntry(raceId: any, entryId: any) {
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).delete();
   }
-  editEntry(raceId: any, entryId: any, entry: any) {
+  updateEntry(raceId: any, entryId: any, entry: any) {
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).update(entry);
   }
 }
