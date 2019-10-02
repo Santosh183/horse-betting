@@ -30,7 +30,7 @@ const routes: Routes = [
     component: UserDetailsComponent
   },
   {
-    path: 'race/:raceNumber',
+    path: 'race/:raceId',
     component: RaceDetailsComponent
   },
   {
@@ -46,15 +46,15 @@ const routes: Routes = [
     component: AddRaceComponent
   },
   {
-    path: 'race/:raceNumber/entry/:entry_seq',
+    path: 'race/:raceId/entry/:entryId',
     component: EntryDetailsComponent
   },
   {
-    path: 'race/:raceNumber/newentry',
+    path: 'race/:raceId/newentry',
     component: AddEntryComponent
   },
   {
-    path: 'race/:raceNumber/entry/:entry_seq/edit',
+    path: 'race/:raceId/entry/:entryId/edit',
     component: EditEntryComponent
   },
 ];

@@ -20,15 +20,8 @@ export class RaceListComponent implements OnInit {
   );
 
   displayedColumns = ['raceNumber', 'raceHorses', 'raceDate', 'status', 'details'];
-  dataSource: Race[] = [];
-  /*
-    [
-      {raceNumber: 1, raceHorses: 8,  raceDate: '12-05-1990', status: 'pending', details: 'd'},
-      {raceNumber: 2, raceHorses: 10, raceDate: '12-05-1990', status: 'completed', details: 'd'},
-      {raceNumber: 3, raceHorses: 14, raceDate: '12-05-1990', status: 'pending', details: 'd'},
-      {raceNumber: 4, raceHorses: 12, raceDate: '12-05-1990', status: 'completed', details: 'd'},
-      {raceNumber: 5, raceHorses: 13, raceDate: '12-05-1990', status: 'pending', details: 'd'},
-    ]; */
+  races: any[] = [];
+
 
   constructor(private breakpointObserver: BreakpointObserver, private firebase: FirebaseService,
               private router: Router) { }
@@ -37,8 +30,9 @@ export class RaceListComponent implements OnInit {
     const s = this.firebase.getRaces();
     s.subscribe(
     (races) => {
-      this.dataSource = races.map(e => {
+      this.races = races.map(e => {
             return {
+              raceId: e.payload.doc.id,
               raceHorses: e.payload.doc.data()[ 'raceHorses'],
               raceNumber: e.payload.doc.data()[ 'raceNumber'],
               raceDate: this.convertToDate(e.payload.doc.data()[ 'raceDate']),
@@ -58,10 +52,4 @@ export class RaceListComponent implements OnInit {
   }
 
 }
-export interface Race {
-  raceHorses: number;
-  raceNumber: number;
-  raceDate: string;
-  status: 'pending' | 'completed';
-  details: string;
-}
+

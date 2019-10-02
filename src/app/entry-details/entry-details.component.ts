@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { DeleteEntryComponent } from '../delete-entry/delete-entry.component';
+import { FirebaseService } from '../firebase-service/firebase.service';
 
 @Component({
   selector: 'app-entry-details',
@@ -11,13 +12,31 @@ import { DeleteEntryComponent } from '../delete-entry/delete-entry.component';
 })
 export class EntryDetailsComponent implements OnInit {
 
-  constructor(private router: Router, private location: Location,
-              public matdialog: MatDialog) { }
+  entry: any = {
+
+  };
+  currentRaceId: any;
+  currentEntryId: any;
+  constructor(private router: Router, private location: Location, private route: ActivatedRoute,
+              private firebase: FirebaseService, public matdialog: MatDialog) { }
 
   ngOnInit() {
+    this.currentRaceId = this.route.snapshot.params.raceId;
+    this.currentEntryId = this.route.snapshot.params.entryId;
+    const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
+    entries.subscribe(
+        (entry: any) => {
+
+          console.log(entry.payload.data());
+          this.entry =  entry.payload.data();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
   navigateToEditEntry() {
-    this.router.navigate(['/race', 5, 'entry', 3, 'edit']);
+    this.router.navigate(['/race', this.currentRaceId, 'entry', this.currentEntryId, 'edit']);
   }
   backToEnrtries() {
     this.location.back();

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { CompleteRaceComponent } from '../complete-race/complete-race.component';
 import { DeleteRaceComponent } from '../delete-race/delete-race.component';
+import { FirebaseService } from '../firebase-service/firebase.service';
 
 @Component({
   selector: 'app-race-details',
@@ -11,21 +12,71 @@ import { DeleteRaceComponent } from '../delete-race/delete-race.component';
 })
 export class RaceDetailsComponent implements OnInit {
 
-  displayedColumns = ['rank', 'user_no', 'name', 'amount', 'details'];
-  dataSource: Entry[] = [
-    {rank: 1, entry_Seq: 1, user_no: 8,  name: 'Ram', amount: 13151 , details: 'd'},
-    {rank: 2, entry_Seq: 1, user_no: 10, name: 'Shyam', amount: 4859, details: 'd'},
-    {rank: 3, entry_Seq: 1, user_no: 14, name: 'Balu', amount: 7845, details: 'd'},
-    {rank: 4, entry_Seq: 1, user_no: 12, name: 'Dhananjay', amount: 8657, details: 'd'},
-    {rank: 5, entry_Seq: 1, user_no: 13, name: 'Shrusti', amount: 1351, details: 'd'},
-  ];
-  constructor(private router: Router, public dialog: MatDialog) { }
+
+  race: any = {
+    raceNumber: null,
+    raceWinners: [],
+    raceHorses: null,
+    raceDate: null,
+    status: null,
+    raceEntries: [ ]
+  };
+  currentRaceId: any = null;
+  displayedColumns = ['rank', 'userNumber', 'userName', 'investedAmount', 'details'];
+
+  constructor( public dialog: MatDialog, private route: ActivatedRoute,
+               private router: Router, private firebase: FirebaseService ) {}
 
   ngOnInit() {
+    this.currentRaceId = this.route.snapshot.params.raceId;
+    const s = this.firebase.getRace(this.currentRaceId);
+    s.subscribe(
+      (race: any) => {
+
+       console.log(race.payload.data());
+       this.race.raceNumber = race.payload.data().raceNumber;
+       this.race.raceWinners = race.payload.data().raceWinners;
+       this.race.raceHorses = race.payload.data().raceHorses;
+       this.race.status = race.payload.data().status;
+       this.race.raceDate = this.convertToDate(race.payload.data().raceDate);
+
+       const entries = this.firebase.getRaceEntries(this.currentRaceId);
+       entries.subscribe(
+        (entry: any) => {
+        this.race.raceEntries =  entry.map(e => {
+            return {
+              entryId: e.payload.doc.id,
+              rank: e.payload.doc.data().rank,
+              userNumber: e.payload.doc.data().userNumber,
+              userName: e.payload.doc.data().userName,
+              investedAmount: e.payload.doc.data().investedAmount,
+              details: 'd'
+            };
+        });
+
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
   }
+
+  convertToDate(timestamp: any) {
+    const d =  new Date(timestamp.seconds * 1000).toISOString().slice(0, 10).split('-');
+    return d[2] + '-' + d[1] + '-' + d[0];
+  }
+
   navigateToAddEntry() {
-    this.router.navigate(['/race', 2, 'newentry']);
+    this.router.navigate(['/race', this.currentRaceId, 'newentry']);
   }
+
   openCompleteDialog(): void {
     const dialogRefComplete = this.dialog.open(CompleteRaceComponent, {
       data: {}
@@ -35,6 +86,9 @@ export class RaceDetailsComponent implements OnInit {
       console.log(result); // return true on confirmation
     });
   }
+
+
+
   openDeleteDialog(): void {
     const dialogRefDelete = this.dialog.open(DeleteRaceComponent, {
       data: { } // pass some data of race so that we can delete correct race
@@ -47,11 +101,4 @@ export class RaceDetailsComponent implements OnInit {
 
 }
 
-export interface Entry {
-  rank: number;
-  entry_Seq: number;
-  user_no: number;
-  name: string;
-  amount: number;
-  details: string;
-}
+
