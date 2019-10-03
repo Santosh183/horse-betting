@@ -31,8 +31,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
     const s = this.firebase.getRace(this.currentRaceId);
-    this.subscriptions.push(s);
-    s.subscribe(
+    let e = s.subscribe(
       (race: any) => {
 
        console.log(race.payload.data());
@@ -43,8 +42,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
        this.race.raceDate = this.convertToDate(race.payload.data().raceDate);
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
-       this.subscriptions.push(entries);
-       entries.subscribe(
+       let b = entries.subscribe(
         (entry: any) => {
         this.race.raceEntries =  entry.map(e => {
             return {
@@ -56,6 +54,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
               details: 'd'
             };
         });
+        this.subscriptions.push(b);
 
         },
         (error) => {
@@ -68,6 +67,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+    this.subscriptions.push(e);
 
   }
 
@@ -116,18 +116,16 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
               // in ngOnInit that subscription remains there until we destroy the component.
               // hence when last entry get deleted that time our entries.length become zero
               if ( this.race.raceEntries.length === 0 ) {
-                flag = true;
+                this.firebase.deleteRace(this.currentRaceId).then(
+                  () => {
+                    this.router.navigate(['/racelist']);
+                  }
+                );
               }
             }
           );
         }
-        if (flag) {
-          this.firebase.deleteRace(this.currentRaceId).then(
-            () => {
-              this.router.navigate(['/racelist']);
-            }
-          );
-        }
+
       }
     });
   }

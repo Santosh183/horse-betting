@@ -30,8 +30,7 @@ export class RaceListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const s = this.firebase.getRaces();
-    this.subscriptions.push(s);
-    s.subscribe(
+    let p = s.subscribe(
     (races) => {
       this.races = races.map(e => {
             return {
@@ -45,6 +44,7 @@ export class RaceListComponent implements OnInit, OnDestroy {
         });
       }
     );
+    this.subscriptions.push(p);
   }
   convertToDate(timestamp: any) {
     let d =  new Date(timestamp.seconds * 1000);

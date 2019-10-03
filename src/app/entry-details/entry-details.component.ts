@@ -35,8 +35,7 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
     );
 
     const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
-    this.subscriptions.push(entries);
-    entries.subscribe(
+    let e = entries.subscribe(
         (entry: any) => {
 
           console.log(entry.payload.data());
@@ -46,6 +45,7 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
           console.log(error);
         }
       );
+    this.subscriptions.push(e);
   }
   navigateToEditEntry() {
     this.router.navigate(['/race', this.currentRaceId, 'entry', this.currentEntryId, 'edit']);

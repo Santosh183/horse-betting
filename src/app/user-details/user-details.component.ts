@@ -26,8 +26,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.user.userNumber = this.route.snapshot.params['id'];
     this.currentUserId = null;
     const s = this.firebase.getUser(this.user.userNumber);
-    this.subscriptions.push(s);
-    s.subscribe(
+    let p = s.subscribe(
       (user: any) => {
        this.user =  user.map(e => {
           this.currentUserId = e.payload.doc.id;
@@ -43,6 +42,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+    this.subscriptions.push(p);
   }
   openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteUserComponent, {

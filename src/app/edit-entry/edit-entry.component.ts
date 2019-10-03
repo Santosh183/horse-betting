@@ -42,8 +42,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
     this.currentEntryId = this.route.snapshot.params.entryId;
 
     const s = this.firebase.getRace(this.currentRaceId);
-    this.subscriptions.push(s);
-    s.subscribe(
+    let p = s.subscribe(
       (race: any) => {
         this.race.raceHorses = race.payload.data().raceHorses;
         for ( let i = 1; i <= this.race.raceHorses; i++) {
@@ -54,11 +53,11 @@ export class EditEntryComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+    this.subscriptions.push(p);
 
 
     const u = this.firebase.getUsers();
-    this.subscriptions.push(u);
-    u.subscribe(
+    let a = u.subscribe(
       (users) => {
         this.users = users.map(e => {
           return {
@@ -69,6 +68,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
         });
       }
     );
+    this.subscriptions.push(a);
 
     const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
     entries.subscribe(

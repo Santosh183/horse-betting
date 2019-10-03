@@ -27,8 +27,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const s = this.firebase.getUsers();
-    this.subscriptions.push(s);
-    s.subscribe(
+    let p = s.subscribe(
       (users) => {
         this.dataSource = users.map(e => {
           return {
@@ -40,6 +39,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         });
       }
     );
+    this.subscriptions.push(p);
     console.log(this.sample);
   }
 
