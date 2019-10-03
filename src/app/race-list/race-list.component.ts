@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './race-list.component.html',
   styleUrls: ['./race-list.component.scss']
 })
-export class RaceListComponent implements OnInit {
+export class RaceListComponent implements OnInit, OnDestroy {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -19,8 +19,10 @@ export class RaceListComponent implements OnInit {
     shareReplay()
   );
 
+
   displayedColumns = ['raceNumber', 'raceHorses', 'raceDate', 'status', 'details'];
   races: any[] = [];
+  subscriptions: any[] = [];
 
 
   constructor(private breakpointObserver: BreakpointObserver, private firebase: FirebaseService,
@@ -28,6 +30,7 @@ export class RaceListComponent implements OnInit {
 
   ngOnInit() {
     const s = this.firebase.getRaces();
+    this.subscriptions.push(s);
     s.subscribe(
     (races) => {
       this.races = races.map(e => {
@@ -52,6 +55,10 @@ export class RaceListComponent implements OnInit {
   newRace() {
     this.router.navigate(['/newrace']);
   }
-
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
+  }
 }
 

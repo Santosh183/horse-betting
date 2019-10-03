@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -8,8 +8,9 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
 
+  subscriptions: any[] = [];
   user = {
     userNumber : null,
     userName: '',
@@ -55,6 +56,12 @@ export class EditUserComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
   }
 
 }

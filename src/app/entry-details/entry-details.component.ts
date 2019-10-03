@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
@@ -10,8 +10,9 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './entry-details.component.html',
   styleUrls: ['./entry-details.component.scss']
 })
-export class EntryDetailsComponent implements OnInit {
+export class EntryDetailsComponent implements OnInit, OnDestroy {
 
+  subscriptions: any[] = [];
   entry: any = {
 
   };
@@ -34,6 +35,7 @@ export class EntryDetailsComponent implements OnInit {
     );
 
     const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
+    this.subscriptions.push(entries);
     entries.subscribe(
         (entry: any) => {
 
@@ -71,6 +73,12 @@ export class EntryDetailsComponent implements OnInit {
         this.location.back();
       }
     );
+  }
+
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { CompleteRaceComponent } from '../complete-race/complete-race.component';
@@ -10,9 +10,10 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './race-details.component.html',
   styleUrls: ['./race-details.component.scss']
 })
-export class RaceDetailsComponent implements OnInit {
+export class RaceDetailsComponent implements OnInit, OnDestroy {
 
 
+  subscriptions: any[] = [];
   race: any = {
     raceNumber: null,
     raceWinners: [],
@@ -30,6 +31,7 @@ export class RaceDetailsComponent implements OnInit {
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
     const s = this.firebase.getRace(this.currentRaceId);
+    this.subscriptions.push(s);
     s.subscribe(
       (race: any) => {
 
@@ -41,6 +43,7 @@ export class RaceDetailsComponent implements OnInit {
        this.race.raceDate = this.convertToDate(race.payload.data().raceDate);
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
+       this.subscriptions.push(entries);
        entries.subscribe(
         (entry: any) => {
         this.race.raceEntries =  entry.map(e => {
@@ -101,10 +104,38 @@ export class RaceDetailsComponent implements OnInit {
     dialogRefDelete.afterClosed().subscribe(result => {
       console.log(result); // return true on confirmation
       if (result === true) {
-        this.firebase.deleteRace(this.currentRaceId);
-        this.router.navigate(['/racelist']);
+
+        let flag = false;
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.race.raceEntries.length ; i++) {
+          this.firebase.deleteEntry(this.currentRaceId, this.race.raceEntries[i].entryId).then(
+            () => {
+              // below if condition really looks strange however it should work.
+              // actually when we delete entry one by one component fetch updated entry data
+              // from firebase as it's real time database and always in sync. although we get data
+              // in ngOnInit that subscription remains there until we destroy the component.
+              // hence when last entry get deleted that time our entries.length become zero
+              if ( this.race.raceEntries.length === 0 ) {
+                flag = true;
+              }
+            }
+          );
+        }
+        if (flag) {
+          this.firebase.deleteRace(this.currentRaceId).then(
+            () => {
+              this.router.navigate(['/racelist']);
+            }
+          );
+        }
       }
     });
+  }
+
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
   }
 
 }

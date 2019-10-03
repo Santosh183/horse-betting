@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
@@ -8,8 +8,9 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './add-entry.component.html',
   styleUrls: ['./add-entry.component.scss']
 })
-export class AddEntryComponent implements OnInit {
+export class AddEntryComponent implements OnInit, OnDestroy {
 
+  subscriptions: any [] = [];
   users: any[] = [];
   bets: any[] = [
      'SHP', 'THP', 'RANK', 'WINNER'
@@ -39,6 +40,7 @@ export class AddEntryComponent implements OnInit {
     this.currentRaceId = this.route.snapshot.params.raceId;
 
     const s = this.firebase.getRace(this.currentRaceId);
+    this.subscriptions.push(s);
     s.subscribe(
       (race: any) => {
         this.race.raceHorses = race.payload.data().raceHorses;
@@ -53,6 +55,7 @@ export class AddEntryComponent implements OnInit {
 
 
     const u = this.firebase.getUsers();
+    this.subscriptions.push(u);
     u.subscribe(
       (users) => {
         this.users = users.map(e => {
@@ -116,10 +119,11 @@ export class AddEntryComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
+  }
 
 }
 
-interface User {
-  userNumber: number;
-  userName: string;
-}

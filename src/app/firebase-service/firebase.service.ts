@@ -38,6 +38,7 @@ export class FirebaseService {
     return this.firestore.doc('races/' + id).delete();
   }
 
+
   /* **************** entry methods ******************* */
   getRaceEntries(id: any) {
     return this.firestore.doc('races/' + id).collection('raceEntries').snapshotChanges();

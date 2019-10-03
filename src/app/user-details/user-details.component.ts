@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,8 +9,9 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnDestroy {
 
+  subscriptions: any[] = [];
   user = {
     userNumber : null,
     userName: '',
@@ -25,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
     this.user.userNumber = this.route.snapshot.params['id'];
     this.currentUserId = null;
     const s = this.firebase.getUser(this.user.userNumber);
+    this.subscriptions.push(s);
     s.subscribe(
       (user: any) => {
        this.user =  user.map(e => {
@@ -49,6 +51,7 @@ export class UserDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if ( result === true) {
+
         this.firebase.deleteUser(this.currentUserId).then(
           () => {
             this.router.navigate(['/userlist']);
@@ -59,6 +62,11 @@ export class UserDetailsComponent implements OnInit {
   }
   navigateToEditUser() {
     this.router.navigate(['/edituser', this.user.userNumber]);
+  }
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
   }
 
 

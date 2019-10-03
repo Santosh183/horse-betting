@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -20,18 +20,14 @@ export class UserListComponent implements OnInit {
 
   displayedColumns = ['user_no', 'name', 'balance', 'details'];
   sample: any[];
-  dataSource: User[] ; /*= [
-    {user_no: 1, name: 'Ram', balance: 1000, details: 'd'},
-    {user_no: 2, name: 'Shyam', balance: 4000, details: 'd'},
-    {user_no: 3, name: 'Dnayneshwar', balance: 5000, details: 'd'},
-    {user_no: 4, name: 'Santosh', balance: 5070, details: 'd'},
-    {user_no: 5, name: 'Suresh', balance: 10000, details: 'd'},
-  ];*/
+  dataSource: User[] ;
+  subscriptions: any[] = [];
   constructor(private breakpointObserver: BreakpointObserver, private firebase: FirebaseService,
               private router: Router) { }
 
   ngOnInit() {
     const s = this.firebase.getUsers();
+    this.subscriptions.push(s);
     s.subscribe(
       (users) => {
         this.dataSource = users.map(e => {
@@ -46,8 +42,16 @@ export class UserListComponent implements OnInit {
     );
     console.log(this.sample);
   }
+
+
   newUser() {
     this.router.navigate(['/newuser']);
+  }
+
+  ngOnDestroy() {
+    for( let i = 0; i< this.subscriptions.length ; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
   }
 }
 export interface User {
