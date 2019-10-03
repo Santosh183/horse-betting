@@ -10,23 +10,30 @@ import { FormControl } from '@angular/forms';
 })
 export class CompleteRaceComponent implements OnInit {
 
-  toppings = new FormControl();
-  toppingList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
-  horses: number[] = [
-    1, 2, 3, 4, 5, 6, 7, 8
-  ];
-  winners = {
-    first: null,
-    second: null,
-    third: null
+  raceFinishData: any = {
+    winners: {
+      first: null,
+      second: null,
+      third: null
+    },
+    cancelled: [],
+    rankDeductionPercentage: null,
+    winnerDeductionPercentage: null
+
   };
+  horses: number[] = [];
   constructor(
-    public dialogRef: MatDialogRef<DeleteUserComponent>,
+    public dialogRef: MatDialogRef<CompleteRaceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit() {
+    console.log(this.data);
+    for ( let i = 1; i <= this.data["raceHorses"]; i++) {
+      this.horses.push(i);
+    }
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
+
 }

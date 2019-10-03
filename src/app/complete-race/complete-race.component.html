@@ -2,7 +2,7 @@
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>First</mat-label>
-    <mat-select [(ngModel)]="winners.first">
+    <mat-select  [(ngModel)]="raceFinishData.winners.first">
       <mat-option *ngFor="let horse of horses" [value]="horse">
         {{horse}}
       </mat-option>
@@ -13,7 +13,7 @@
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>Second</mat-label>
-    <mat-select [(ngModel)]="winners.second">
+    <mat-select  [(ngModel)]="raceFinishData.winners.second">
       <mat-option *ngFor="let horse of horses" [value]="horse">
         {{horse}}
       </mat-option>
@@ -24,7 +24,7 @@
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>Third</mat-label>
-    <mat-select [(ngModel)]="winners.third">
+    <mat-select [(ngModel)]="raceFinishData.winners.third">
       <mat-option *ngFor="let horse of horses" [value]="horse">
         {{horse}}
       </mat-option>
@@ -34,27 +34,27 @@
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field>
-    <mat-label>Cancelled</mat-label>
-    <mat-select [formControl]="toppings" multiple>
-      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+    <mat-label>Cancelled</mat-label> 
+    <mat-select [(ngModel)]="raceFinishData.cancelled"  multiple>
+      <mat-option *ngFor="let horse of horses" [value]="horse">{{horse}}</mat-option>
     </mat-select>
   </mat-form-field>
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>-% rank</mat-label>
-    <input type="number" matInput placeholder="% rank cut">
+    <input [(ngModel)]="raceFinishData.rankDeductionPercentage" type="number" matInput placeholder="% rank cut">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>-% winner</mat-label>
-    <input type="number" matInput placeholder="% winner cut">
+    <input [(ngModel)]="raceFinishData.winnerDeductionPercentage" type="number" matInput placeholder="% winner cut">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <div mat-dialog-actions>
-  <button class="yes" mat-button [mat-dialog-close]="winners" cdkFocusInitial>Complete</button>
+  <button class="yes" mat-button [mat-dialog-close]="raceFinishData" cdkFocusInitial>Complete</button>
   <button class="no" mat-button (click)="onNoClick()">Cancel</button>
 </div>

@@ -81,7 +81,9 @@ export class RaceDetailsComponent implements OnInit {
 
   openCompleteDialog(): void {
     const dialogRefComplete = this.dialog.open(CompleteRaceComponent, {
-      data: {}
+      data: {
+        raceHorses: this.race.raceHorses
+      }
     });
 
     dialogRefComplete.afterClosed().subscribe(result => {
