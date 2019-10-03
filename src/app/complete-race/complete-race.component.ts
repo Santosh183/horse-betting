@@ -35,5 +35,28 @@ export class CompleteRaceComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  returnHorses(flag: any) {
+    if ( flag === 'first') {
+        return this.horses.filter(
+          (horse) => {
+            return horse !== null;
+          }
+        );
+    }
+    if ( flag === 'second') {
+      return this.horses.filter(
+        (horse) => {
+          return horse !== this.raceFinishData.winners.first;
+        }
+      );
+    }
+    if ( flag === 'third') {
+      return this.horses.filter(
+        (horse) => {
+          return ( horse !== this.raceFinishData.winners.first && horse !== this.raceFinishData.winners.second);
+        }
+      );
+    }
+  }
 
 }

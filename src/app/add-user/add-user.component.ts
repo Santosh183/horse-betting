@@ -34,13 +34,18 @@ export class AddUserComponent implements OnInit {
       this.firebase.getUsers().subscribe(
         (users) => {
           this.errorMessage = '';
-          for (let i = 0; i < users.length; i++) {
-            if ( users[i].payload.doc.data()[ 'userNumber'] == this.user.userNumber) {
-              this.errorMessage = 'user with this usernumber is already present';
-            } else if (users.length - 1 === i) {
-              if (this.errorMessage === '') {
-                this.firebase.addUser(this.user);
-                this.router.navigate(['/userlist']);
+          if (users.length === 0) {
+            this.firebase.addUser(this.user);
+            this.router.navigate(['/userlist']);
+          } else {
+            for (let i = 0; i < users.length; i++) {
+              if ( users[i].payload.doc.data()[ 'userNumber'] == this.user.userNumber) {
+                this.errorMessage = 'user with this usernumber is already present';
+              } else if (users.length - 1 === i) {
+                if (this.errorMessage === '') {
+                  this.firebase.addUser(this.user);
+                  this.router.navigate(['/userlist']);
+                }
               }
             }
           }

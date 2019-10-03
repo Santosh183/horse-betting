@@ -1,7 +1,7 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <span class="info">Adding New Entry</span>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>User No.</mat-label>
     <mat-select (selectionChange)="selectUser()" [(ngModel)]="entry.userNumber">
@@ -12,14 +12,14 @@
     <mat-hint></mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>User Name</mat-label>
     <input [(ngModel)]="entry.userName" type="text" disabled matInput placeholder="User Name">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Betting Type</mat-label>
     <mat-select [(ngModel)]="entry.bettingType">
@@ -30,28 +30,28 @@
     <mat-hint></mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Invested Amount</mat-label>
     <input [(ngModel)]="entry.investedAmount" type="number" matInput placeholder="Enter amount to invest">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Rate</mat-label>
     <input [(ngModel)]="entry.rate" type="number" matInput placeholder="Rate">
     <mat-hint> mostly it's very small </mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Tax</mat-label>
     <input [(ngModel)]="entry.taxRate" type="number" matInput placeholder="Tax ">
     <mat-hint> % charge</mat-hint>
   </mat-form-field>
 </p>
-<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+<p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>horse no</mat-label>
     <mat-select [(ngModel)]="entry.horseNumber">
@@ -61,6 +61,9 @@
     </mat-select>
     <mat-hint> </mat-hint>
   </mat-form-field>
+</p>
+<p *ngIf="errorMessage !== ''" class="error col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <span>{{errorMessage}}</span>
 </p>
 <p class="butttons col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
     <button (click)="addEntry()" class="submit">Submit</button>

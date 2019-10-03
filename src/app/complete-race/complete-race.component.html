@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>Do You want to delete user?</h1>
+<h1 mat-dialog-title>Declare Result</h1>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>First</mat-label>
     <mat-select  [(ngModel)]="raceFinishData.winners.first">
-      <mat-option *ngFor="let horse of horses" [value]="horse">
+      <mat-option *ngFor="let horse of returnHorses('first')" [value]="horse">
         {{horse}}
       </mat-option>
     </mat-select>
@@ -14,7 +14,7 @@
   <mat-form-field appearance="legacy">
     <mat-label>Second</mat-label>
     <mat-select  [(ngModel)]="raceFinishData.winners.second">
-      <mat-option *ngFor="let horse of horses" [value]="horse">
+      <mat-option *ngFor="let horse of returnHorses('second')" [value]="horse">
         {{horse}}
       </mat-option>
     </mat-select>
@@ -25,7 +25,7 @@
   <mat-form-field appearance="legacy">
     <mat-label>Third</mat-label>
     <mat-select [(ngModel)]="raceFinishData.winners.third">
-      <mat-option *ngFor="let horse of horses" [value]="horse">
+      <mat-option *ngFor="let horse of returnHorses('third')" [value]="horse">
         {{horse}}
       </mat-option>
     </mat-select>

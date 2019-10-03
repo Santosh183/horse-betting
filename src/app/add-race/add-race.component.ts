@@ -34,13 +34,19 @@ export class AddRaceComponent implements OnInit {
       this.firebase.getRaces().subscribe(
         (races) => {
           this.errorMessage = '';
-          for (let i = 0; i < races.length; i++) {
-            if ( races[i].payload.doc.data()[ 'raceNumber'] == this.race.raceNumber) {
-              this.errorMessage = 'race with this race is already present';
-            } else if (races.length - 1 === i) {
-              if (this.errorMessage === '') {
-                this.firebase.addRace(this.race);
-                this.router.navigate(['/racelist']);
+          if (races.length === 0) {
+            this.firebase.addRace(this.race);
+            this.router.navigate(['/racelist']);
+          } else {
+
+            for (let i = 0; i < races.length; i++) {
+              if ( races[i].payload.doc.data()[ 'raceNumber'] == this.race.raceNumber) {
+                this.errorMessage = 'race with this race is already present';
+              } else if (races.length - 1 === i) {
+                if (this.errorMessage === '') {
+                  this.firebase.addRace(this.race);
+                  this.router.navigate(['/racelist']);
+                }
               }
             }
           }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
 
 @Component({
@@ -19,6 +19,8 @@ export class AddEntryComponent implements OnInit {
     raceHorses: null
   };
   horses: number[] = [];
+  errorFieldName = '';
+  errorMessage = '';
   entry: any = {
     bettingType: '',
     horseNumber: null,
@@ -31,7 +33,7 @@ export class AddEntryComponent implements OnInit {
     userNumber: null
   };
   constructor( private route: ActivatedRoute, private location: Location,
-               private router: Router, private firebase: FirebaseService ) {}
+               private firebase: FirebaseService ) {}
 
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
@@ -77,12 +79,38 @@ export class AddEntryComponent implements OnInit {
   }
 
   addEntry() {
-    this.firebase.addEntry(this.currentRaceId, this.entry).then(
-      () => {
-        console.log('added new entry to current race');
-        this.location.back();
+    this.errorFieldName = '';
+    this.errorMessage = '';
+
+    for(let i=0; i< this.users.length; i++) {
+
+      if ( this.users[i].userNumber === this.entry.userNumber) {
+        if ( 0.9 * this.users[i].userBalance < this.entry.investedAmount ) {
+            this.errorMessage = 'Insufficient Balance';
+        }
       }
-    );
+    }
+
+    for ( const i in this.entry) {
+      if (i !== 'rank' && i !== 'resultChange' ) {
+        if (!this.entry[i]) {
+          this.errorFieldName = i;
+          this.errorMessage = this.errorFieldName + ' can not be empty';
+          break;
+        }
+      }
+    }
+
+
+    if ( this.errorMessage === '') {
+      this.firebase.addEntry(this.currentRaceId, this.entry).then(
+        () => {
+          console.log('added new entry to current race');
+          this.location.back();
+        }
+      );
+    }
+
   }
 
   goBack() {
