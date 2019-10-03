@@ -16,9 +16,9 @@ export class CompleteRaceComponent implements OnInit {
     1, 2, 3, 4, 5, 6, 7, 8
   ];
   winners = {
-    first: '',
-    second: '',
-    third: ''
+    first: null,
+    second: null,
+    third: null
   };
   constructor(
     public dialogRef: MatDialogRef<DeleteUserComponent>,
