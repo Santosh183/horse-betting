@@ -13,6 +13,7 @@ import { FirebaseService } from '../firebase-service/firebase.service';
 export class EntryDetailsComponent implements OnInit, OnDestroy {
 
   subscriptions: any[] = [];
+  users: any[] = [];
   entry: any = {
 
   };
@@ -33,6 +34,22 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
         this.race.status = race.payload.data()["status"];
       }
     );
+
+
+    const u = this.firebase.getUsers(); // needed to get exact user which we want to delete
+    let a = u.subscribe(
+      (users) => {
+        this.users = users.map(e => {
+          return {
+            userId: e.payload.doc.id,
+            userNumber: e.payload.doc.data()[ 'userNumber'],
+            userName: e.payload.doc.data()[ 'userName'],
+            userBalance: e.payload.doc.data()[ 'userBalance'],
+          };
+        });
+      }
+    );
+    this.subscriptions.push(a);
 
     const entries = this.firebase.getEntryDetails(this.currentRaceId, this.currentEntryId );
     let e = entries.subscribe(
@@ -67,10 +84,26 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
     });
   }
   deleteEntry() {
-    this.firebase.deleteEntry(this.currentRaceId, this.currentEntryId).then(
+    let tempUser = this.users.find(
+      (user) => {
+        return user.userNumber === this.entry.userNumber;
+      }
+    );
+    tempUser.userBalance = tempUser.userBalance + this.entry.investedAmount;
+    const updatedUser = {
+      userNumber: tempUser.userNumber,
+      userName: tempUser.userName,
+      userBalance: tempUser.userBalance
+    };
+    this.firebase.editUser( tempUser.userId, updatedUser).then(
       () => {
-        console.log('entry modified');
-        this.location.back();
+        console.log('balance updated for updated user of this entry');
+        this.firebase.deleteEntry(this.currentRaceId, this.currentEntryId).then(
+          () => {
+            console.log('entry deleted');
+            this.location.back();
+          }
+        );
       }
     );
   }

@@ -11,7 +11,7 @@ export class DeleteRaceComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
 
@@ -22,7 +22,4 @@ export class DeleteRaceComponent implements OnInit {
   }
 
 }
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+

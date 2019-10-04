@@ -2,38 +2,38 @@
   <div class="info col-12">
     <div class="col-8 col-sm-6 col-md-4 col-lg-4 ">
       <span class="label">Rank:</span>
-      <span class="data">{{entry.rank}}</span>
+      <span class="data">{{entry?.rank}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">User No: </span>
-      <span class="data"> {{entry.userNumber}}</span>
+      <span class="data"> {{entry?.userNumber}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">User Name: </span>
-      <span class="data">{{entry.userName}}</span>
+      <span class="data">{{entry?.userName}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Betting Type: </span>
-      <span class="data">{{entry.bettingType}}</span>
+      <span class="data">{{entry?.bettingType}}</span>
     </div> <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Invested Amount: </span>
-      <span class="data">{{entry.investedAmount}}</span>
+      <span class="data">{{entry?.investedAmount}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Rate: </span>
-      <span class="data">{{entry.rate}}</span>
+      <span class="data">{{entry?.rate}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Tax: </span>
-      <span class="data">{{entry.taxRate}}</span>
+      <span class="data">{{entry?.taxRate}}</span>
     </div>           
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Profit/Loss:  </span>
-      <span class="data">{{entry.resultChange}}</span>
+      <span class="data">{{entry?.resultChange}}</span>
     </div>
     <div class="col-8 col-sm-6 col-md-4 col-lg-4">
       <span class="label">Horse No: </span>
-      <span class="data">{{entry.horseNumber}}</span>
+      <span class="data">{{entry?.horseNumber}}</span>
     </div>            
     <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
       <button *ngIf="race.status == 'pending'" (click)="navigateToEditEntry()" class="edit-entry"> Edit Entry</button>

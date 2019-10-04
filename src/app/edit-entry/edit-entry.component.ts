@@ -61,6 +61,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
       (users) => {
         this.users = users.map(e => {
           return {
+            userId: e.payload.doc.id,
             userNumber: e.payload.doc.data()[ 'userNumber'],
             userName: e.payload.doc.data()[ 'userName'],
             userBalance: e.payload.doc.data()[ 'userBalance'],
@@ -93,10 +94,26 @@ export class EditEntryComponent implements OnInit, OnDestroy {
   }
 
   updateEntry() {
-    this.firebase.updateEntry(this.currentRaceId, this.currentEntryId, this.entry).then(
+    let tempUser = this.users.find(
+      (user) => {
+        return user.userNumber === this.entry.userNumber;
+      }
+    );
+    tempUser.userBalance = tempUser.userBalance - this.entry.investedAmount;
+    const updatedUser = {
+      userNumber: tempUser.userNumber,
+      userName: tempUser.userName,
+      userBalance: tempUser.userBalance
+    };
+    this.firebase.editUser( tempUser.userId, updatedUser).then(
       () => {
-        console.log('entry modified');
-        this.location.back();
+        console.log('balance updated for updated user of this entry');
+        this.firebase.updateEntry(this.currentRaceId, this.currentEntryId, this.entry).then(
+          () => {
+            console.log('entry modified');
+            this.location.back();
+          }
+        );
       }
     );
   }

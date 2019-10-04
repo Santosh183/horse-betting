@@ -59,6 +59,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       (users) => {
         this.users = users.map(e => {
           return {
+            userId: e.payload.doc.id,
             userNumber: e.payload.doc.data()[ 'userNumber'],
             userName: e.payload.doc.data()[ 'userName'],
             userBalance: e.payload.doc.data()[ 'userBalance'],
@@ -103,13 +104,37 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         }
       }
     }
-
+    if (this.entry.investedAmount < 0) {
+      this.errorMessage = 'invested amount can not be less than 0';
+    }
+    if (this.entry.taxRate < 0) {
+      this.errorMessage = 'tax rate can not be less than 0';
+    }
+    if (this.entry.rate < 0) {
+      this.errorMessage = 'rate can not be less than 0';
+    }
 
     if ( this.errorMessage === '') {
       this.firebase.addEntry(this.currentRaceId, this.entry).then(
         () => {
           console.log('added new entry to current race');
-          this.location.back();
+          let tempUser = this.users.find(
+            (user) => {
+              return user.userNumber === this.entry.userNumber;
+            }
+          );
+          tempUser.userBalance = tempUser.userBalance - this.entry.investedAmount;
+          const updatedUser = {
+            userNumber: tempUser.userNumber,
+            userName: tempUser.userName,
+            userBalance: tempUser.userBalance
+          };
+          this.firebase.editUser( tempUser.userId, updatedUser).then(
+            () => {
+              console.log('balance updated for added user');
+              this.location.back();
+            }
+          );
         }
       );
     }

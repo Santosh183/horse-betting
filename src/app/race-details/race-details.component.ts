@@ -14,6 +14,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
 
 
   subscriptions: any[] = [];
+  users: any[] = [];
   race: any = {
     raceNumber: null,
     raceWinners: [],
@@ -30,6 +31,23 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
+
+    const u = this.firebase.getUsers(); 
+    // needed to get exact users whose entries are there so that we can update their balance after deleting race.
+    let a = u.subscribe(
+      (users) => {
+        this.users = users.map(e => {
+          return {
+            userId: e.payload.doc.id,
+            userNumber: e.payload.doc.data()[ 'userNumber'],
+            userName: e.payload.doc.data()[ 'userName'],
+            userBalance: e.payload.doc.data()[ 'userBalance'],
+          };
+        });
+      }
+    );
+    this.subscriptions.push(a);
+
     const s = this.firebase.getRace(this.currentRaceId);
     let e = s.subscribe(
       (race: any) => {
@@ -108,6 +126,23 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         let flag = false;
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.race.raceEntries.length ; i++) {
+
+          let tempUser = this.users.find(
+            (user) => {
+              return user.userNumber === this.race.raceEntries[i].userNumber;
+            }
+          );
+          tempUser.userBalance = tempUser.userBalance + this.race.raceEntries[i].investedAmount;
+          const updatedUser = {
+            userNumber: tempUser.userNumber,
+            userName: tempUser.userName,
+            userBalance: tempUser.userBalance
+          };
+          this.firebase.editUser( tempUser.userId, updatedUser).then(
+            () => {
+              console.log('balance updated for updated user of this entry');
+            }
+          );
           this.firebase.deleteEntry(this.currentRaceId, this.race.raceEntries[i].entryId).then(
             () => {
               // below if condition really looks strange however it should work.
