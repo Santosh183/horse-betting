@@ -89,7 +89,7 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
         return user.userNumber === this.entry.userNumber;
       }
     );
-    tempUser.userBalance = tempUser.userBalance + this.entry.investedAmount;
+    tempUser.userBalance = tempUser.userBalance + ( this.entry.investedAmount + ( this.entry.investedAmount *  this.entry.rate / 100 ) );
     const updatedUser = {
       userNumber: tempUser.userNumber,
       userName: tempUser.userName,

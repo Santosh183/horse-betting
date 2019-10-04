@@ -135,7 +135,9 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                 return user.userNumber === this.race.raceEntries[i].userNumber;
               }
             );
-            tempUser.userBalance = tempUser.userBalance + this.race.raceEntries[i].investedAmount;
+            tempUser.userBalance =
+            tempUser.userBalance + ( this.race.raceEntries[i].investedAmount +
+            ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate / 100 ) );
             const updatedUser = {
               userNumber: tempUser.userNumber,
               userName: tempUser.userName,
