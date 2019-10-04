@@ -85,7 +85,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
-    this.subscriptions.push(e);
+    this.subscriptions.push(a);
 
   }
 
@@ -123,26 +123,31 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       console.log(result); // return true on confirmation
       if (result === true) {
 
-        let flag = false;
+        let flag = false; // to identify it race has entries or not so that we will not end up trying to delete race twice
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.race.raceEntries.length ; i++) {
 
-          let tempUser = this.users.find(
-            (user) => {
-              return user.userNumber === this.race.raceEntries[i].userNumber;
-            }
-          );
-          tempUser.userBalance = tempUser.userBalance + this.race.raceEntries[i].investedAmount;
-          const updatedUser = {
-            userNumber: tempUser.userNumber,
-            userName: tempUser.userName,
-            userBalance: tempUser.userBalance
-          };
-          this.firebase.editUser( tempUser.userId, updatedUser).then(
-            () => {
-              console.log('balance updated for updated user of this entry');
-            }
-          );
+          flag = true;
+          if ( this.race.status === 'pending') {
+
+            let tempUser = this.users.find(
+              (user) => {
+                return user.userNumber === this.race.raceEntries[i].userNumber;
+              }
+            );
+            tempUser.userBalance = tempUser.userBalance + this.race.raceEntries[i].investedAmount;
+            const updatedUser = {
+              userNumber: tempUser.userNumber,
+              userName: tempUser.userName,
+              userBalance: tempUser.userBalance
+            };
+            this.firebase.editUser( tempUser.userId, updatedUser).then(
+              () => {
+                console.log('balance updated for updated user of this entry');
+              }
+            );
+
+          }
           this.firebase.deleteEntry(this.currentRaceId, this.race.raceEntries[i].entryId).then(
             () => {
               // below if condition really looks strange however it should work.
@@ -157,6 +162,13 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                   }
                 );
               }
+            }
+          );
+        }
+        if ( !flag) {
+          this.firebase.deleteRace(this.currentRaceId).then(
+            () => {
+              this.router.navigate(['/racelist']);
             }
           );
         }
