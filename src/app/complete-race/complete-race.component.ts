@@ -18,7 +18,8 @@ export class CompleteRaceComponent implements OnInit {
     },
     cancelled: [],
     rankDeductionPercentage: null,
-    winnerDeductionPercentage: null
+    winnerDeductionPercentage: null,
+    confirmed: false
 
   };
   horses: number[] = [];
@@ -35,6 +36,15 @@ export class CompleteRaceComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  toggleButton() {
+    if ( this.raceFinishData.winners.first !== null && this.raceFinishData.winners.second !== null &&
+         this.raceFinishData.winners.third !== null ) {
+          this.raceFinishData.confirmed = true;
+        }
+
+  }
+
   returnHorses(flag: any) {
     if ( flag === 'first') {
         return this.horses.filter(
@@ -54,6 +64,14 @@ export class CompleteRaceComponent implements OnInit {
       return this.horses.filter(
         (horse) => {
           return ( horse !== this.raceFinishData.winners.first && horse !== this.raceFinishData.winners.second);
+        }
+      );
+    }
+    if ( flag === 'cancelled') {
+      return this.horses.filter(
+        (horse) => {
+          return ( horse !== this.raceFinishData.winners.first && horse !== this.raceFinishData.winners.second
+                   && horse !== this.raceFinishData.winners.third);
         }
       );
     }

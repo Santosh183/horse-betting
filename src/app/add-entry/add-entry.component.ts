@@ -89,7 +89,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     for(let i=0; i< this.users.length; i++) {
 
       if ( this.users[i].userNumber === this.entry.userNumber) {
-        if ( 0.9 * this.users[i].userBalance < ( this.entry.investedAmount + ( this.entry.investedAmount *  this.entry.rate / 100 ) ) ) {
+        if ( 0.9 * this.users[i].userBalance < ( this.entry.investedAmount + ( this.entry.investedAmount *  this.entry.taxRate / 100 ) ) ) {
             this.errorMessage = 'Insufficient Balance';
         }
       }
@@ -124,7 +124,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
             }
           );
           tempUser.userBalance = tempUser.userBalance -
-           ( this.entry.investedAmount + ( this.entry.investedAmount *  this.entry.rate / 100 ) );
+           ( this.entry.investedAmount + ( this.entry.investedAmount *  this.entry.taxRate / 100 ) );
           const updatedUser = {
             userNumber: tempUser.userNumber,
             userName: tempUser.userName,

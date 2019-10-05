@@ -37,6 +37,9 @@ export class FirebaseService {
   deleteRace(id: any) {
     return this.firestore.doc('races/' + id).delete();
   }
+  updateRaceStatus(id: any, race: any) {
+    return this.firestore.doc('races/' + id).update(race);
+  }
 
 
   /* **************** entry methods ******************* */

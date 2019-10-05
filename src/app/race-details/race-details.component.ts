@@ -13,8 +13,10 @@ import { FirebaseService } from '../firebase-service/firebase.service';
 export class RaceDetailsComponent implements OnInit, OnDestroy {
 
 
+  flag = false;
   subscriptions: any[] = [];
   users: any[] = [];
+  showSpinner = false;
   race: any = {
     raceNumber: null,
     raceWinners: [],
@@ -31,8 +33,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentRaceId = this.route.snapshot.params.raceId;
-
-    const u = this.firebase.getUsers(); 
+    const u = this.firebase.getUsers();
     // needed to get exact users whose entries are there so that we can update their balance after deleting race.
     let a = u.subscribe(
       (users) => {
@@ -57,18 +58,23 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
        this.race.raceWinners = race.payload.data().raceWinners;
        this.race.raceHorses = race.payload.data().raceHorses;
        this.race.status = race.payload.data().status;
-       this.race.raceDate = this.convertToDate(race.payload.data().raceDate);
+       this.race.raceDate = race.payload.data().raceDate;
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
        let b = entries.subscribe(
         (entry: any) => {
         this.race.raceEntries =  entry.map(e => {
+            this.showSpinner = false;
             return {
               entryId: e.payload.doc.id,
               rank: e.payload.doc.data().rank,
+              rate: e.payload.doc.data().rate,
+              taxRate: e.payload.doc.data().taxRate,
               userNumber: e.payload.doc.data().userNumber,
               userName: e.payload.doc.data().userName,
               investedAmount: e.payload.doc.data().investedAmount,
+              bettingType: e.payload.doc.data().bettingType,
+              horseNumber: e.payload.doc.data().horseNumber,
               details: 'd'
             };
         });
@@ -90,10 +96,12 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
   }
 
   convertToDate(timestamp: any) {
-    let d =  new Date(timestamp.seconds * 1000);
-    d = new Date(d.getTime() + Math.abs(d.getTimezoneOffset() * 60000));
-    const temp = d.toISOString().slice(0, 10).split('-');
-    return temp[2] + '-' + temp[1] + '-' + temp[0];
+    if (timestamp) { // will not give null error
+      let d =  new Date(timestamp.seconds * 1000);
+      d = new Date(d.getTime() + Math.abs(d.getTimezoneOffset() * 60000));
+      const temp = d.toISOString().slice(0, 10).split('-');
+      return temp[2] + '-' + temp[1] + '-' + temp[0];
+    }
   }
 
   navigateToAddEntry() {
@@ -107,11 +115,179 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRefComplete.afterClosed().subscribe(result => {
-      console.log(result); // return true on confirmation
+    dialogRefComplete.afterClosed().subscribe(raceCompleteData => {
+      console.log(raceCompleteData); // return true on confirmation
+
+
+      if (raceCompleteData.confirmed === true) {
+
+        this.race.raceWinners[0] = raceCompleteData.winners.first;
+        this.race.raceWinners[1] = raceCompleteData.winners.second;
+        this.race.raceWinners[2] = raceCompleteData.winners.third;
+        this.showSpinner = true;
+        this.flag = false;
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.race.raceEntries.length ; i++) {
+
+          if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[0]
+              &&  ( this.race.raceEntries[i].bettingType === 'WINNER' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+
+              this.processWinner( 1, i, raceCompleteData);
+
+          } else if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[1]
+            &&  ( this.race.raceEntries[i].bettingType === 'SHP' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+
+              this.processWinner( 2, i, raceCompleteData);
+
+          } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2]
+            &&  ( this.race.raceEntries[i].bettingType === 'THP' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+
+              this.processWinner( 3, i, raceCompleteData);
+
+          } else {
+
+              if ( raceCompleteData.cancelled.indexOf(this.race.raceEntries[i].horseNumber) >= 0 ) {
+
+                this.race.raceEntries[i].resultChange = 0;
+                let tempObject =   {...this.race.raceEntries[i]};
+                delete tempObject.details;
+                delete tempObject.entryId;
+                this.firebase.updateEntry(this.currentRaceId, this.race.raceEntries[i].entryId , tempObject).then (
+                  () => {
+                    console.log('updated entry according to horse rank');
+                  }
+                );
+
+                let tempUser = this.users.find(
+                  (user) => {
+                    return user.userNumber === this.race.raceEntries[i].userNumber;
+                  }
+                );
+                tempUser.userBalance = tempUser.userBalance + this.race.raceEntries[i].investedAmount +
+                 ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].taxRate / 100 );
+                const updatedUser = {
+                  userNumber: tempUser.userNumber,
+                  userName: tempUser.userName,
+                  userBalance: tempUser.userBalance
+                };
+                this.firebase.editUser( tempUser.userId, updatedUser).then(
+                  () => {
+                    console.log('balance updated for rank holders of this entry');
+                    if ( i === this.race.raceEntries.length - 1 ) {
+                      this.race.status = 'completed';
+                      let tempObj = {...this.race};
+                      delete tempObj.raceEntries;
+                      this.flag = true;
+                      this.firebase.updateRaceStatus(this.currentRaceId, tempObj).then(
+                        () => {
+                          console.log('race status updated');
+                          this.router.navigate(['/racelist']);
+                        }
+                      );
+                    }
+                  }
+                );
+
+              } else {
+                this.race.raceEntries[i].resultChange = -(this.race.raceEntries[i].investedAmount +
+                  this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].taxRate / 100);
+                let tempObject =   {...this.race.raceEntries[i]};
+                delete tempObject.details;
+                delete tempObject.entryId;
+                this.firebase.updateEntry(this.currentRaceId, this.race.raceEntries[i].entryId , this.race.raceEntries[i]).then (
+                  () => {
+                    console.log('updated entry according to horse rank');
+                    if ( i === this.race.raceEntries.length - 1 ) {
+                      this.race.status = 'completed';
+                      let tempObj = {...this.race};
+                      delete tempObj.raceEntries;
+                      this.flag = true;
+                      this.firebase.updateRaceStatus(this.currentRaceId, tempObj).then(
+                        () => {
+                          console.log('race status updated');
+                          this.router.navigate(['/racelist']);
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+
+          }
+
+        }
+        if (!this.flag) {
+          this.race.status = 'completed';
+          let tempObj = {...this.race};
+          delete tempObj.raceEntries;
+          this.firebase.updateRaceStatus(this.currentRaceId, tempObj).then(
+            () => {
+              this.showSpinner = false;
+              this.router.navigate(['/racelist']);
+            }
+          );
+        }
+      }
+
     });
   }
 
+
+  processWinner(rank: any, i: number, raceCompleteData: any) {
+
+    this.race.raceEntries[i].rank = rank;
+    this.race.raceEntries[i].resultChange = (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate)
+      - (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].taxRate / 100);
+
+    let tempObject =   {...this.race.raceEntries[i]};
+    delete tempObject.details;
+    delete tempObject.entryId;
+    this.firebase.updateEntry(this.currentRaceId, this.race.raceEntries[i].entryId , tempObject).then (
+      () => {
+        console.log('updated entry according to horse rank');
+      }
+    );
+    let tempUser = this.users.find(
+      (user) => {
+        return user.userNumber === this.race.raceEntries[i].userNumber;
+      }
+    );
+    tempUser.userBalance =
+    tempUser.userBalance + ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate );
+    if ( raceCompleteData.cancelled.length > 0) {
+      if ( this.race.raceEntries[i].bettingType === 'RANK' ) {
+        tempUser.userBalance = tempUser.userBalance - (raceCompleteData.rankDeductionPercentage / 100) *
+        ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate ) ;
+      }
+      if ( this.race.raceEntries[i].bettingType === 'WINNER' ) {
+
+        tempUser.userBalance = tempUser.userBalance - (raceCompleteData.winnerDeductionPercentage / 100) *
+        ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate ) ;
+      }
+    }
+    const updatedUser = {
+      userNumber: tempUser.userNumber,
+      userName: tempUser.userName,
+      userBalance: tempUser.userBalance
+    };
+    this.firebase.editUser( tempUser.userId, updatedUser).then(
+      () => {
+        console.log('balance updated for rank holders of this entry');
+        if ( i === this.race.raceEntries.length - 1 ) {
+          this.race.status = 'completed';
+          let tempObj = {...this.race};
+          delete tempObj.raceEntries;
+          this.firebase.updateRaceStatus(this.currentRaceId, tempObj).then(
+            () => {
+              console.log('race status updated');
+              this.router.navigate(['/racelist']);
+            }
+          );
+        }
+      }
+    );
+
+  }
 
 
   openDeleteDialog(): void {
@@ -123,6 +299,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       console.log(result); // return true on confirmation
       if (result === true) {
 
+        this.showSpinner = true;
         let flag = false; // to identify it race has entries or not so that we will not end up trying to delete race twice
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.race.raceEntries.length ; i++) {
@@ -137,7 +314,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
             );
             tempUser.userBalance =
             tempUser.userBalance + ( this.race.raceEntries[i].investedAmount +
-            ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate / 100 ) );
+            ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].taxRate / 100 ) );
             const updatedUser = {
               userNumber: tempUser.userNumber,
               userName: tempUser.userName,
@@ -160,6 +337,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
               if ( this.race.raceEntries.length === 0 ) {
                 this.firebase.deleteRace(this.currentRaceId).then(
                   () => {
+                    this.showSpinner = false;
                     this.router.navigate(['/racelist']);
                   }
                 );
@@ -170,11 +348,11 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         if ( !flag) {
           this.firebase.deleteRace(this.currentRaceId).then(
             () => {
+              this.showSpinner = false;
               this.router.navigate(['/racelist']);
             }
           );
         }
-
       }
     });
   }
