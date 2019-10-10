@@ -9,6 +9,7 @@
     <mat-nav-list>
       <a mat-list-item (click)="drawer.close()" [routerLink]="['/userlist']">User List</a>
       <a mat-list-item (click)="drawer.close()" [routerLink]="['/racelist']">Race List</a>
+      <a mat-list-item (click)="drawer.close()" [routerLink]="['/addbalance']">Add Balance</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -26,6 +27,7 @@
       <div *ngIf="(isHandset$ | async) === false">
         <a mat-list-item [routerLink]="['/userlist']">User List</a>
         <a mat-list-item [routerLink]="['/racelist']">Race List</a>
+        <a mat-list-item [routerLink]="['/addbalance']">Add Balance</a>
       </div>
     </mat-toolbar>
     <ng-content></ng-content>

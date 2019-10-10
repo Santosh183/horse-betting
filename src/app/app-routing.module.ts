@@ -10,6 +10,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { EntryDetailsComponent } from './entry-details/entry-details.component';
 import { AddEntryComponent } from './add-entry/add-entry.component';
 import { EditEntryComponent } from './edit-entry/edit-entry.component';
+import { AddBalanceComponent } from './add-balance/add-balance.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'racelist',
     component: RaceListComponent
+  },
+  {
+    path: 'addbalance',
+    component: AddBalanceComponent
   },
   {
     path: 'user/:id',

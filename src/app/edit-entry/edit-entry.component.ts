@@ -13,7 +13,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   users: any[] = [];
   bets: any[] = [
-     'SHP', 'THP', 'RANK', 'WINNER'
+     'SHP', 'THP', 'PLACE', 'WINNER'
   ];
   currentRaceId: any;
   currentEntryId: any;

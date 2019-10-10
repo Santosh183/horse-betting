@@ -130,17 +130,17 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.race.raceEntries.length ; i++) {
 
           if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[0]
-              &&  ( this.race.raceEntries[i].bettingType === 'WINNER' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+              &&  ( this.race.raceEntries[i].bettingType === 'WINNER' || this.race.raceEntries[i].bettingType === 'PLACE') ) {
 
               this.processWinner( 1, i, raceCompleteData);
 
           } else if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[1]
-            &&  ( this.race.raceEntries[i].bettingType === 'SHP' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+            &&  ( this.race.raceEntries[i].bettingType === 'SHP' || this.race.raceEntries[i].bettingType === 'PLACE') ) {
 
               this.processWinner( 2, i, raceCompleteData);
 
           } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2]
-            &&  ( this.race.raceEntries[i].bettingType === 'THP' || this.race.raceEntries[i].bettingType === 'RANK') ) {
+            &&  ( this.race.raceEntries[i].bettingType === 'THP' || this.race.raceEntries[i].bettingType === 'PLACE') ) {
 
               this.processWinner( 3, i, raceCompleteData);
 
@@ -255,7 +255,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     tempUser.userBalance =
     tempUser.userBalance + ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate );
     if ( raceCompleteData.cancelled.length > 0) {
-      if ( this.race.raceEntries[i].bettingType === 'RANK' ) {
+      if ( this.race.raceEntries[i].bettingType === 'PLACE' ) {
         tempUser.userBalance = tempUser.userBalance - (raceCompleteData.rankDeductionPercentage / 100) *
         ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate ) ;
       }

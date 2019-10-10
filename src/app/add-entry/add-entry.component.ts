@@ -18,7 +18,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   filteredUsers: Observable<string[]>;
   bets: any[] = [
-     'SHP', 'THP', 'RANK', 'WINNER'
+     'SHP', 'THP', 'PLACE', 'WINNER'
   ];
   currentRaceId: any;
   race: any = {
@@ -106,6 +106,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       } else {
         this.entry.userName = null;
       }
+    }
+  }
+
+  fixDefaultTax() {
+    if (this.entry.bettingType === 'SHP' || this.entry.bettingType === 'THP') {
+      this.entry.taxRate = 0;
+    }  else {
+      this.entry.taxRate = 5;
     }
   }
 

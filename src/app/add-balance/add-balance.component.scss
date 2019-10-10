@@ -1,0 +1,26 @@
+mat-form-field {
+    width: 100%;
+    mat-form-field-flex {
+        border-style: solid;
+    }
+}
+span.info {
+    color:#673ab7;
+    font-size: 1.4rem;
+}
+p.butttons {
+    .submit {
+        background:#673ab7;
+        color:white;
+        padding: 5px;
+        margin-right: 10px;
+    }
+    .cancel {
+        background: white;
+        color:black;
+        padding: 5px;
+    }
+}
+.mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+    background-image: linear-gradient(to right,rgba(0,0,0,.42) 0,rgba(0,0,0,.42));
+}

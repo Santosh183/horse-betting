@@ -1,3 +1,35 @@
-<p>
-  add-balance works!
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <span class="info">Adding New User</span>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>User No.</mat-label>
+    <input  type="number" placeholder="User No." aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let user of filteredUsers | async" [value]="user.userNumber">
+          {{user.userNumber}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>User Name</mat-label>
+    <input disabled [(ngModel)]="user.userName"  matInput placeholder="Enter Name of user">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+  <mat-form-field appearance="legacy">
+    <mat-label>Balance</mat-label>
+    <input [(ngModel)]="balance" type="number" matInput placeholder="Balance">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p *ngIf="errorMessage !== ''" class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3 error">
+    <span>{{errorMessage}}</span>
+</p>
+<p class="butttons col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
+    <button (click)="addBalance()" class="submit">Submit</button>
+    <button (click)="goBack()" class="cancel">Cancel</button>
 </p>
