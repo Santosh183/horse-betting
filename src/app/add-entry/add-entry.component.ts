@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-entry',
@@ -12,6 +15,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   subscriptions: any [] = [];
   users: any[] = [];
+  myControl = new FormControl();
+  filteredUsers: Observable<string[]>;
   bets: any[] = [
      'SHP', 'THP', 'RANK', 'WINNER'
   ];
@@ -37,6 +42,20 @@ export class AddEntryComponent implements OnInit, OnDestroy {
                private firebase: FirebaseService ) {}
 
   ngOnInit() {
+
+    this.filteredUsers = this.myControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(
+        value => {
+          this.entry.userNumber = value;
+          this.selectUser();
+          return this._filter(value);
+        }
+      )
+    );
+
+
     this.currentRaceId = this.route.snapshot.params.raceId;
 
     const s = this.firebase.getRace(this.currentRaceId);
@@ -73,11 +92,19 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   }
 
+  private _filter(value: string): string[] {
+
+    return this.users.filter(user => user.userNumber.toString().includes(value));
+  }
+
   selectUser() {
     for(let i=0; i< this.users.length; i++) {
 
       if ( this.users[i].userNumber === this.entry.userNumber) {
         this.entry.userName = this.users[i].userName;
+        break;
+      } else {
+        this.entry.userName = null;
       }
     }
   }

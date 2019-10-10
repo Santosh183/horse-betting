@@ -15,7 +15,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { RaceListComponent } from './race-list/race-list.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatTableModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
-         MatNativeDateModule, MatDialogModule, MatSelectModule, MatOptionModule } from '@angular/material';
+         MatNativeDateModule, MatDialogModule, MatSelectModule, MatOptionModule, MatAutocompleteModule } from '@angular/material';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -86,6 +86,7 @@ import { environment } from '../environments/environment';
     MatDialogModule,
     MatSelectModule,
     MatOptionModule,
+    MatAutocompleteModule,
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
