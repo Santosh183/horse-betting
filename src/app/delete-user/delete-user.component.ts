@@ -20,10 +20,3 @@ export class DeleteUserComponent implements OnInit {
   }
 
 }
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
-
-

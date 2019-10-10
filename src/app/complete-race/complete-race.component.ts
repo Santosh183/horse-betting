@@ -1,7 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DeleteUserComponent, DialogData } from '../delete-user/delete-user.component';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-complete-race',
@@ -25,7 +23,7 @@ export class CompleteRaceComponent implements OnInit {
   horses: number[] = [];
   constructor(
     public dialogRef: MatDialogRef<CompleteRaceComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
     console.log(this.data);

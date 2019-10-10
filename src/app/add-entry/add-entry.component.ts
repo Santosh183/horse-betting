@@ -29,7 +29,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     rank: null,
     rate: null,
     resultChange: null,
-    taxRate: null,
+    taxRate: 5,
     userName: '',
     userNumber: null
   };
