@@ -26,7 +26,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     raceEntries: [ ]
   };
   currentRaceId: any = null;
-  displayedColumns = ['rank', 'userNumber', 'userName', 'investedAmount', 'details'];
+  displayedColumns = [ 'userNumber', 'userName', 'horseNumber', 'investedAmount', 'rate', 'details'];
 
   constructor( public dialog: MatDialog, private route: ActivatedRoute,
                private router: Router, private firebase: FirebaseService ) {}
@@ -63,28 +63,28 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
        let b = entries.subscribe(
         (entry: any) => {
-        this.race.raceEntries =  entry.map(e => {
-            this.showSpinner = false;
-            return {
-              entryId: e.payload.doc.id,
-              rank: e.payload.doc.data().rank,
-              rate: e.payload.doc.data().rate,
-              taxRate: e.payload.doc.data().taxRate,
-              userNumber: e.payload.doc.data().userNumber,
-              userName: e.payload.doc.data().userName,
-              investedAmount: e.payload.doc.data().investedAmount,
-              bettingType: e.payload.doc.data().bettingType,
-              horseNumber: e.payload.doc.data().horseNumber,
-              details: 'd'
-            };
-        });
-        this.subscriptions.push(b);
+          this.race.raceEntries =  entry.map(e => {
+              this.showSpinner = false;
+              return {
+                entryId: e.payload.doc.id,
+                rank: e.payload.doc.data().rank,
+                rate: e.payload.doc.data().rate,
+                taxRate: e.payload.doc.data().taxRate,
+                userNumber: e.payload.doc.data().userNumber,
+                userName: e.payload.doc.data().userName,
+                investedAmount: e.payload.doc.data().investedAmount,
+                bettingType: e.payload.doc.data().bettingType,
+                horseNumber: e.payload.doc.data().horseNumber,
+                details: 'd'
+              };
+          });
 
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+       this.subscriptions.push(b);
 
       },
       (error) => {
@@ -140,7 +140,9 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
               this.processWinner( 2, i, raceCompleteData);
 
           } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2]
-            &&  ( this.race.raceEntries[i].bettingType === 'THP' || this.race.raceEntries[i].bettingType === 'PLACE') ) {
+            &&  ( this.race.raceEntries[i].bettingType === 'THP' ||
+             (this.race.raceEntries[i].bettingType === 'PLACE' &&  this.race.raceHorses > 8) )
+            ) {
 
               this.processWinner( 3, i, raceCompleteData);
 
@@ -253,7 +255,8 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       }
     );
     tempUser.userBalance =
-    tempUser.userBalance + ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate );
+    tempUser.userBalance + this.race.raceEntries[i].investedAmount +
+    ( this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate );
     if ( raceCompleteData.cancelled.length > 0) {
       if ( this.race.raceEntries[i].bettingType === 'PLACE' ) {
         tempUser.userBalance = tempUser.userBalance - (raceCompleteData.rankDeductionPercentage / 100) *

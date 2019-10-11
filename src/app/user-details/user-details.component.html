@@ -1,4 +1,4 @@
-<div *ngIf="user?.userName === ''; else data" class="info-container container col-12">
+<div *ngIf="user?.userName === '' || showSpinner; else data" class="info-container container col-12">
   <mat-spinner></mat-spinner>
 </div>
 <ng-template #data>

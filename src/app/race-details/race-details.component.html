@@ -43,35 +43,42 @@
   </div>
   <div class="entries">
     <table mat-table [dataSource]="race.raceEntries">
-
-      <!-- rank Column -->
-      <ng-container matColumnDef="rank">
-        <th mat-header-cell *matHeaderCellDef> Rank </th>
-        <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
-      </ng-container>
   
       <!-- user no Column -->
       <ng-container matColumnDef="userNumber">
-        <th mat-header-cell *matHeaderCellDef> User No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.userNumber}} </td>
+        <th class="user-no" mat-header-cell *matHeaderCellDef> User No. </th>
+        <td class="user-no" mat-cell *matCellDef="let element"> {{element.userNumber}} </td>
       </ng-container>
   
       <!-- user name Column -->
       <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+        <th class="user-name" mat-header-cell *matHeaderCellDef> Name </th>
+        <td class="user-name" mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+
+      
+      <!-- horse no Column -->
+      <ng-container matColumnDef="horseNumber">
+        <th class="horse-no" mat-header-cell *matHeaderCellDef> horse no. </th>
+        <td class="horse-no" mat-cell *matCellDef="let element"> {{element.horseNumber}} </td>
       </ng-container>
 
       <!-- amount Column -->
       <ng-container matColumnDef="investedAmount">
-        <th mat-header-cell *matHeaderCellDef> Amount </th>
-        <td mat-cell *matCellDef="let element"> {{element.investedAmount}} </td>
+        <th class="amount" mat-header-cell *matHeaderCellDef> Amount </th>
+        <td class="amount" mat-cell *matCellDef="let element"> {{element.investedAmount}} </td>
       </ng-container>
   
+      <!-- rate  Column -->
+      <ng-container matColumnDef="rate">
+        <th class="rate" mat-header-cell *matHeaderCellDef> Rate </th>
+        <td class="rate" mat-cell *matCellDef="let element"> {{element.rate}} </td>
+      </ng-container>
+
       <!-- details Column -->
       <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef> Details </th>
-        <td mat-cell *matCellDef="let element"> 
+        <th class="details" mat-header-cell *matHeaderCellDef> Details </th>
+        <td class="details" mat-cell *matCellDef="let element"> 
           <mat-icon [routerLink]="[ '/race',currentRaceId,'entry',element.entryId]" aria-label="icon">arrow_forward_ios</mat-icon> 
         </td> 
       </ng-container>

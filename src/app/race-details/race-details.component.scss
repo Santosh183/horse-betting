@@ -6,6 +6,37 @@ svg {
 }
 table {
     width: 100%;
+    th, td {
+        padding: 2px 2px;
+        word-break: break-word;
+    }
+    .user-no{
+        width: 15%;
+        padding-left: 10px; 
+        background: rgba(231, 231, 231, 0.9);
+    }
+    .user-name{
+        width: 25%;
+        background: rgba(231, 231, 231, 0.5); 
+    }
+    .horse-no{
+        width: 14%;
+        background: rgba(231, 231, 231, 0.9);
+    }
+    .amount{
+        width: 18%;
+        background: rgba(231, 231, 231, 0.5);
+    }
+    .rate{
+        width: 12%;
+        background:  rgba(231, 231, 231, 0.9);
+    }
+    .details{
+        width: 15%;
+        padding-right: 10px;
+        background: rgba(231, 231, 231, 0.5);
+    }
+    
 }
 mat-icon {
     cursor: pointer;
