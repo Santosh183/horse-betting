@@ -32,6 +32,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                private router: Router, private firebase: FirebaseService ) {}
 
   ngOnInit() {
+    this.showSpinner = true;
     this.currentRaceId = this.route.snapshot.params.raceId;
     const u = this.firebase.getUsers();
     // needed to get exact users whose entries are there so that we can update their balance after deleting race.
@@ -78,12 +79,13 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                 details: 'd'
               };
           });
+          this.race.raceEntries.reverse();
 
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
        this.subscriptions.push(b);
 
       },

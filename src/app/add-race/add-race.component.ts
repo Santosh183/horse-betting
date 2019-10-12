@@ -30,6 +30,10 @@ export class AddRaceComponent implements OnInit {
     if (this.race.raceNumber == null ||
        this.race.raceDate == null || this.race.raceHorses === null) {
          this.errorMessage = 'field can not be empty';
+    } else if ( this.race.raceNumber <= 0) {
+      this.errorMessage = 'Race number can not be zero or negative';
+    } else if (this.race.raceHorses <= 0) {
+      this.errorMessage = 'total horses can not be zero or negative';
     } else {
       this.firebase.getRaces().subscribe(
         (races) => {
@@ -41,7 +45,7 @@ export class AddRaceComponent implements OnInit {
 
             for (let i = 0; i < races.length; i++) {
               if ( races[i].payload.doc.data()[ 'raceNumber'] == this.race.raceNumber) {
-                this.errorMessage = 'race with this race is already present';
+                this.errorMessage = 'race with this race number is already present';
               } else if (races.length - 1 === i) {
                 if (this.errorMessage === '') {
                   this.firebase.addRace(this.race);

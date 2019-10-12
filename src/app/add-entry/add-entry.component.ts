@@ -132,14 +132,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
     for ( const i in this.entry) {
       if (i !== 'rank' && i !== 'resultChange' ) {
-        if (!this.entry[i]) {
+        if (!this.entry[i] && this.entry[i] !== 0) {
           this.errorFieldName = i;
           this.errorMessage = this.errorFieldName + ' can not be empty';
           break;
         }
       }
     }
-    if (this.entry.investedAmount < 0) {
+    if (this.entry.investedAmount <= 0) {
       this.errorMessage = 'invested amount can not be less than 0';
     }
     if (this.entry.taxRate < 0) {

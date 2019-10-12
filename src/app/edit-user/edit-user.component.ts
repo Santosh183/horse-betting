@@ -16,6 +16,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     userName: '',
     userBalance: null
   };
+  errorMessage = '';
   currentUserId: any = null;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private location: Location, 
@@ -47,15 +48,24 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.location.back();
   }
   editUser() {
-    this.firebase.editUser(this.currentUserId, this.user).then(
-      (res) => {
-        console.log(res + 'updated');
-        this.router.navigate(['/userlist']);
-      },
-      (error) => {
-        console.log(error);
+    if (this.user.userNumber == null || this.user.userName === '') {
+        this.errorMessage = 'field can not be empty';
+    } else if ( this.user.userNumber <= 0 ) {
+      this.errorMessage = 'User number can not be zero or negative';
+    } else {
+      if ( this.user.userBalance == null ) {
+        this.user.userBalance = 0;
       }
-    );
+      this.firebase.editUser(this.currentUserId, this.user).then(
+        (res) => {
+          console.log(res + 'updated');
+          this.router.navigate(['/userlist']);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 
   ngOnDestroy() {

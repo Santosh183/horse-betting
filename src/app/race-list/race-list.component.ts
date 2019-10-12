@@ -32,16 +32,17 @@ export class RaceListComponent implements OnInit, OnDestroy {
     const s = this.firebase.getRaces();
     let p = s.subscribe(
     (races) => {
-      this.races = races.map(e => {
-            return {
-              raceId: e.payload.doc.id,
-              raceHorses: e.payload.doc.data()[ 'raceHorses'],
-              raceNumber: e.payload.doc.data()[ 'raceNumber'],
-              raceDate: this.convertToDate(e.payload.doc.data()[ 'raceDate']),
-              status: e.payload.doc.data()[ 'status'],
-              details: 'd'
-            };
+        this.races = races.map(e => {
+              return {
+                raceId: e.payload.doc.id,
+                raceHorses: e.payload.doc.data()[ 'raceHorses'],
+                raceNumber: e.payload.doc.data()[ 'raceNumber'],
+                raceDate: this.convertToDate(e.payload.doc.data()[ 'raceDate']),
+                status: e.payload.doc.data()[ 'status'],
+                details: 'd'
+              };
         });
+        this.races.reverse();
       }
     );
     this.subscriptions.push(p);

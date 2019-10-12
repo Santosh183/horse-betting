@@ -37,7 +37,7 @@
     </div>
     <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
       <button *ngIf="race.status == 'pending'" (click)="navigateToAddEntry()" class="add-entry">+ Add Entry</button>
-      <button *ngIf="race.status == 'pending'" (click)="openCompleteDialog()" class="complete-race">Complete Race</button>
+      <button *ngIf="race.status == 'pending' && race.raceEntries.length > 0" (click)="openCompleteDialog()" class="complete-race">Complete Race</button>
       <button (click)="openDeleteDialog()" class="delete-race">Delete Race</button>
     </div>
   </div>

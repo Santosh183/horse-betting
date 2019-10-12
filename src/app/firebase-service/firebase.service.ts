@@ -9,9 +9,11 @@ export class FirebaseService {
   constructor(private firestore: AngularFirestore, ) { }
 
   getUsers() {
-    return this.firestore.collection('users').snapshotChanges();
+    // return this.firestore.collection('users').snapshotChanges();
+    return this.firestore.collection('users', ref => ref.orderBy('timestamp')).snapshotChanges();
   }
   addUser(user: any) {
+    user.timestamp = new Date();
     return this.firestore.collection('users').add(user);
   }
   getUser(id: any) {
@@ -20,15 +22,17 @@ export class FirebaseService {
   deleteUser(id: any) {
     return this.firestore.doc('users/' + id).delete();
   }
-  editUser(id: any, updatedRecord: any) {
-    return this.firestore.doc('users/' + id).update(updatedRecord);
+  editUser(id: any, user: any) {
+    user.timestamp = new Date();
+    return this.firestore.doc('users/' + id).update(user);
   }
 
   /* **************** race methods ******************* */
   getRaces() {
-    return this.firestore.collection('races').snapshotChanges();
+    return this.firestore.collection('races', ref => ref.orderBy('timestamp')).snapshotChanges();
   }
   addRace(race: any) {
+    race.timestamp = new Date();
     return this.firestore.collection('races').add(race);
   }
   getRace(id: any) {
@@ -38,24 +42,27 @@ export class FirebaseService {
     return this.firestore.doc('races/' + id).delete();
   }
   updateRaceStatus(id: any, race: any) {
+    race.timestamp = new Date();
     return this.firestore.doc('races/' + id).update(race);
   }
 
 
   /* **************** entry methods ******************* */
   getRaceEntries(id: any) {
-    return this.firestore.doc('races/' + id).collection('raceEntries').snapshotChanges();
+    return this.firestore.doc('races/' + id).collection('raceEntries', ref => ref.orderBy('timestamp')).snapshotChanges();
   }
   getEntryDetails(raceId: any, entryId: any) {
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).snapshotChanges();
   }
   addEntry(raceId: any, entry: any) {
+    entry.timestamp = new Date();
     return this.firestore.doc('races/' + raceId).collection('raceEntries').add(entry);
   }
   deleteEntry(raceId: any, entryId: any) {
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).delete();
   }
   updateEntry(raceId: any, entryId: any, entry: any) {
+    entry.timestamp = new Date();
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).update(entry);
   }
 }

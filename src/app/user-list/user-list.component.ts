@@ -37,6 +37,7 @@ export class UserListComponent implements OnInit, OnDestroy {
             details: 'd'
           };
         });
+        this.dataSource.reverse();
       }
     );
     this.subscriptions.push(p);

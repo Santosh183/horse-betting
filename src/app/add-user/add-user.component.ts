@@ -30,6 +30,8 @@ export class AddUserComponent implements OnInit {
     if (this.user.userNumber == null ||
        this.user.userBalance == null || this.user.userName === '') {
          this.errorMessage = 'field can not be empty';
+    } else if ( this.user.userNumber <= 0 ) {
+      this.errorMessage = 'User number can not be zero or negative';
     } else {
       this.firebase.getUsers().subscribe(
         (users) => {
@@ -40,7 +42,7 @@ export class AddUserComponent implements OnInit {
           } else {
             for (let i = 0; i < users.length; i++) {
               if ( users[i].payload.doc.data()[ 'userNumber'] == this.user.userNumber) {
-                this.errorMessage = 'user with this usernumber is already present';
+                this.errorMessage = 'user with this user number is already present';
               } else if (users.length - 1 === i) {
                 if (this.errorMessage === '') {
                   this.firebase.addUser(this.user);
