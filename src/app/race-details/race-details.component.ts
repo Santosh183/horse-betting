@@ -94,6 +94,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       }
     );
     this.subscriptions.push(a);
+    this.showSpinner = false;
 
   }
 
