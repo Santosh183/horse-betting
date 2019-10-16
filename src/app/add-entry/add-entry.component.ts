@@ -136,7 +136,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           this.errorFieldName = i;
           this.errorMessage = this.errorFieldName + ' can not be empty';
           if (i !== 'userName') {
-            this.errorMessage = 'User Number' + ' can not be empty';
+            this.errorMessage = 'User with Number' + ' entered is not present';
           }
 
           break;
