@@ -14,14 +14,16 @@ prerequisite: 1) repository must be public
 
 ********** deploying on firebase ***************
 1) npm install -g firebase-tools --save     install firebase tool
-2) firebase login        log in to firebase from console
+2) firebase login        log in to firebase from console (will open browser automatically for login)
 3) firebase init         will create firebase.json which will contain configuration of deployment.
     answer all questions which are popping out.
     are you ready to proceed.?   --  yes
 
-    which firebase cli service u want to use ?  ---- hosting
+    which firebase cli service u want to use ?  ---- hosting (press space for selecting choice)
 
-    which directory u want to use for deployement :---- dist/project-name
+    which project u want to use?  --- supposed to create project on firebase before this step (can use already created one)
+
+    which directory u want to use for deployement :---- dist/horse-betting         -- dist/project-name
     configure as single page app? ----  yesfile dist/project-name/index.html already exist overwrie?  ---- yes
 
 4)  after completing all steps firebase.json will get generated with below or similar content
