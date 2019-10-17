@@ -1,3 +1,4 @@
+********** deploying on github pages ***************
 1) first need to install angular-cli-ghpages using npm i -g angular-cli-ghpages --save
 2) then ng build --prod --base-href "https://santosh183.github.io/horse-betting/" replace username and repo name accordingly
 3) then make sure that everything is come directly under dist folder. if dist has subfolder then manually
@@ -8,3 +9,43 @@
 prerequisite: 1) repository must be public
               2) environment.ts must be up to date with firebase cofiguration
               3) must enable github pages from repository setting.
+
+
+
+********** deploying on firebase ***************
+1) npm install -g firebase-tools --save     install firebase tool
+2) firebase login        log in to firebase from console
+3) firebase init         will create firebase.json which will contain configuration of deployment.
+    answer all questions which are popping out.
+    are you ready to proceed.?   --  yes
+
+    which firebase cli service u want to use ?  ---- hosting
+
+    which directory u want to use for deployement :---- dist/project-name
+    configure as single page app? ----  yesfile dist/project-name/index.html already exist overwrie?  ---- yes
+
+4)  after completing all steps firebase.json will get generated with below or similar content
+
+    {
+        "hosting": {
+            "public": "dist/your_application_name",
+            "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+            ],
+            "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+            ]
+        }
+    }
+
+5) ng build --prod     build angular app with prod flag
+
+6)  firebase deploy    --- final shot
+
+
+     
