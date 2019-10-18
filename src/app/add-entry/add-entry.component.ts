@@ -18,7 +18,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   filteredUsers: Observable<string[]>;
   bets: any[] = [
-     'SHP', 'THP', 'PLACE', 'WINNER'
+    'WINNER', 'PLACE', 'SHP', 'THP'
   ];
   currentRaceId: any;
   race: any = {
@@ -28,7 +28,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   errorFieldName = '';
   errorMessage = '';
   entry: any = {
-    bettingType: '',
+    bettingType: 'WINNER',
     horseNumber: null,
     investedAmount: null,
     rank: null,

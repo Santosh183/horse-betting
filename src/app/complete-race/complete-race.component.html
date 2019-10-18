@@ -33,6 +33,20 @@
   </mat-form-field>
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
+  <mat-form-field appearance="legacy">
+    <mat-label>SHP rate</mat-label>
+    <input (keyup)="toggleButton()" [(ngModel)]="raceFinishData.SHPRate" type="number" matInput placeholder="SHP rate">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
+  <mat-form-field appearance="legacy">
+    <mat-label>THP rate</mat-label>
+    <input (keyup)="toggleButton()" [(ngModel)]="raceFinishData.THPRate" type="number" matInput placeholder="THP rate">
+    <mat-hint> </mat-hint>
+  </mat-form-field>
+</p>
+<p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field>
     <mat-label>Cancelled</mat-label> 
     <mat-select [(ngModel)]="raceFinishData.cancelled"  multiple>

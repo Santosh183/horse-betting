@@ -14,6 +14,8 @@ export class CompleteRaceComponent implements OnInit {
       second: null,
       third: null
     },
+    THPRate: null,
+    SHPRate: null,
     cancelled: [],
     rankDeductionPercentage: null,
     winnerDeductionPercentage: null,
@@ -37,7 +39,8 @@ export class CompleteRaceComponent implements OnInit {
 
   toggleButton() {
     if ( this.raceFinishData.winners.first !== null && this.raceFinishData.winners.second !== null &&
-         this.raceFinishData.winners.third !== null ) {
+         this.raceFinishData.winners.third !== null && this.raceFinishData.SHPRate !== null
+         && this.raceFinishData.THPRate !== null ) {
           this.raceFinishData.confirmed = true;
         }
 

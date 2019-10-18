@@ -28,3 +28,10 @@ p.butttons {
 .error {
     clear: both;
 }
+span.disabled {
+    cursor: not-allowed;
+    button {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+}
