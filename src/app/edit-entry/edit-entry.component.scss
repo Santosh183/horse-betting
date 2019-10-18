@@ -8,7 +8,14 @@ span.info {
     color:#673ab7;
     font-size: 1.4rem;
 }
+p.data {
+    float:left;
+}
+.error {
+    clear:both;
+}
 p.butttons {
+    clear:both;
     .submit {
         background:#673ab7;
         color:white;

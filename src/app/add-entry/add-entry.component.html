@@ -51,14 +51,15 @@
 <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Rate</mat-label>
-    <input [(ngModel)]="entry.rate" type="number" matInput placeholder="Rate">
+    <input [(ngModel)]="entry.rate" [disabled]="(entry.bettingType === 'THP' || entry.bettingType === 'SHP')?'true':'false'" 
+      type="number" matInput placeholder="Rate">
     <mat-hint> mostly it's very small </mat-hint>
   </mat-form-field>
 </p>
 <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Tax</mat-label>
-    <input [(ngModel)]="entry.taxRate" type="number" matInput placeholder="Tax ">
+    <input [(ngModel)]="entry.taxRate" disabled type="number" matInput placeholder="Tax ">
     <mat-hint> % charge</mat-hint>
   </mat-form-field>
 </p>
