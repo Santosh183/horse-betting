@@ -98,18 +98,19 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
                 if (this.user.userNumber === tempEntry[j].userNumber) {
                   this.firebase.deleteEntry(this.races[i].raceId, tempEntry[j].entryId).then(
                     () => {
+                      if ( i === this.races.length - 1 && j === tempEntry.length - 1 ) {
+                        this.firebase.deleteUser(this.currentUserId).then(
+                          () => {
+                            this.showSpinner = false;
+                            this.router.navigate(['/userlist']);
+                          }
+                        );
+                      }
                     }
                   );
                 }
               }
-              if ( i === this.races.length - 1 ) {
-                this.firebase.deleteUser(this.currentUserId).then(
-                  () => {
-                    this.showSpinner = false;
-                    this.router.navigate(['/userlist']);
-                  }
-                );
-              }
+
 
             },
             (error) => {
