@@ -24,6 +24,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   race: any = {
     raceHorses: null
   };
+  showProcess = false;
   horses: number[] = [];
   errorFieldName = '';
   errorMessage = '';
@@ -118,6 +119,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
 
   addEntry() {
+    this.showProcess = true;
     this.errorFieldName = '';
     this.errorMessage = '';
 
@@ -175,6 +177,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           this.firebase.editUser( tempUser.userId, updatedUser).then(
             () => {
               console.log('balance updated for added user');
+              this.showProcess = false;
               this.location.back();
             }
           );

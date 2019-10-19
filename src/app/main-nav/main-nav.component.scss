@@ -24,8 +24,17 @@ mat-toolbar a {
   text-decoration: none;
 }
 .mat-list-item {
-  margin-left: 25px;
+  padding-left: 25px !important;
   cursor: pointer;
+}
+.mat-list-item.logout {
+  color: #673ab7;
+  background: white;
+}
+.mat-list-item.logout:hover {
+  color: #673ab7;
+  background: white;
+  opacity: 1.0;
 }
 .mat-list-item:hover {
   opacity: 0.6;

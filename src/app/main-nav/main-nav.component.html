@@ -6,10 +6,11 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar color="primary">Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list *ngIf="signedIn">
       <a mat-list-item (click)="drawer.close()" [routerLink]="['/userlist']">User List</a>
       <a mat-list-item (click)="drawer.close()" [routerLink]="['/racelist']">Race List</a>
       <a mat-list-item (click)="drawer.close()" [routerLink]="['/addbalance']">Add Balance</a>
+      <a class="logout" mat-list-item (click)="signOut()">Log Out</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -24,10 +25,11 @@
       </button>
       <span class="title">horse-betting</span>
       <span class="spacer"></span>
-      <div *ngIf="(isHandset$ | async) === false">
+      <div *ngIf="(isHandset$ | async) === false && signedIn">
         <a mat-list-item [routerLink]="['/userlist']">User List</a>
         <a mat-list-item [routerLink]="['/racelist']">Race List</a>
         <a mat-list-item [routerLink]="['/addbalance']">Add Balance</a>
+        <a class="logout" mat-list-item (click)="signOut()">Sign Out</a>
       </div>
     </mat-toolbar>
     <ng-content></ng-content>

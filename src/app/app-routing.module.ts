@@ -11,56 +11,74 @@ import { EntryDetailsComponent } from './entry-details/entry-details.component';
 import { AddEntryComponent } from './add-entry/add-entry.component';
 import { EditEntryComponent } from './edit-entry/edit-entry.component';
 import { AddBalanceComponent } from './add-balance/add-balance.component';
+import { LoginComponent } from './login/login.component';
+import {AuthGuard} from './auth-guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'userlist',
+    redirectTo: 'signin',
+    pathMatch: 'full'
+  },
+  {
+    path: 'signin',
+    component: LoginComponent,
     pathMatch: 'full'
   },
   {
     path: 'userlist',
-    component: UserListComponent
+    component: UserListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'racelist',
-    component: RaceListComponent
+    component: RaceListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'addbalance',
-    component: AddBalanceComponent
+    component: AddBalanceComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user/:id',
-    component: UserDetailsComponent
+    component: UserDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'race/:raceId',
-    component: RaceDetailsComponent
+    component: RaceDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'newuser',
-    component: AddUserComponent
+    component: AddUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edituser/:id',
-    component: EditUserComponent
+    component: EditUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'newrace',
-    component: AddRaceComponent
+    component: AddRaceComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'race/:raceId/entry/:entryId',
-    component: EntryDetailsComponent
+    component: EntryDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'race/:raceId/newentry',
-    component: AddEntryComponent
+    component: AddEntryComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'race/:raceId/entry/:entryId/edit',
-    component: EditEntryComponent
+    component: EditEntryComponent,
+    canActivate: [AuthGuard]
   },
 ];
 

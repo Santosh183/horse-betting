@@ -24,6 +24,9 @@ export class FirebaseService {
   }
   editUser(id: any, user: any) {
     user.timestamp = new Date();
+    if ( user.userBalance !== null) {
+      user.userBalance = Number((user.userBalance).toFixed(2));
+    }
     return this.firestore.doc('users/' + id).update(user);
   }
 
@@ -62,6 +65,9 @@ export class FirebaseService {
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).delete();
   }
   updateEntry(raceId: any, entryId: any, entry: any) {
+    if ( entry.resultChange !== null) {
+      entry.resultChange = Number((entry.resultChange).toFixed(2));
+    }
     entry.timestamp = new Date();
     return this.firestore.doc('races/' + raceId).collection('raceEntries').doc(entryId).update(entry);
   }

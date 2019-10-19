@@ -35,7 +35,9 @@ import { CompleteRaceComponent } from './complete-race/complete-race.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { environment } from '../environments/environment';
     DeleteRaceComponent,
     EditRaceComponent,
     CompleteRaceComponent,
+    LoginComponent,
   ],
   entryComponents: [
     DeleteUserComponent,
@@ -91,6 +94,7 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AppRoutingModule
   ],
   providers: [],
