@@ -55,11 +55,13 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       (race: any) => {
 
        console.log(race.payload.data());
-       this.race.raceNumber = race.payload.data().raceNumber;
-       this.race.raceWinners = race.payload.data().raceWinners;
-       this.race.raceHorses = race.payload.data().raceHorses;
-       this.race.status = race.payload.data().status;
-       this.race.raceDate = race.payload.data().raceDate;
+       if ( race.payload.data()) {
+        this.race.raceNumber = race.payload.data().raceNumber;
+        this.race.raceWinners = race.payload.data().raceWinners;
+        this.race.raceHorses = race.payload.data().raceHorses;
+        this.race.status = race.payload.data().status;
+        this.race.raceDate = race.payload.data().raceDate;
+       }
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
        let b = entries.subscribe(
