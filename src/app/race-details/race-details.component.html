@@ -75,6 +75,12 @@
         <td class="rate" mat-cell *matCellDef="let element"> {{element.rate}} </td>
       </ng-container>
 
+      <!-- BETTINGTYPE Column -->
+      <ng-container matColumnDef="type">
+        <th class="type" mat-header-cell *matHeaderCellDef> B.T. </th>
+        <td class="type" mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
       <!-- details Column -->
       <ng-container matColumnDef="details">
         <th class="details" mat-header-cell *matHeaderCellDef> Details </th>

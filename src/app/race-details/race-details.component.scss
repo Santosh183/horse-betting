@@ -20,21 +20,25 @@ table {
         background: rgba(231, 231, 231, 0.5); 
     }
     .horse-no{
-        width: 14%;
+        width: 10%;
         background: rgba(231, 231, 231, 0.9);
     }
     .amount{
-        width: 18%;
+        width: 14%;
         background: rgba(231, 231, 231, 0.5);
     }
     .rate{
-        width: 12%;
+        width: 10%;
         background:  rgba(231, 231, 231, 0.9);
     }
+    .type{
+        width: 9%;
+        background:  rgba(231, 231, 231, 0.5);
+    }
     .details{
-        width: 15%;
+        width: 12%;
         padding-right: 10px;
-        background: rgba(231, 231, 231, 0.5);
+        background: rgba(231, 231, 231, 0.9);
     }
     
 }

@@ -26,7 +26,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     raceEntries: [ ]
   };
   currentRaceId: any = null;
-  displayedColumns = [ 'userNumber', 'userName', 'horseNumber', 'investedAmount', 'rate', 'details'];
+  displayedColumns = [ 'userNumber', 'userName', 'horseNumber', 'investedAmount', 'rate', 'type','details'];
 
   constructor( public dialog: MatDialog, private route: ActivatedRoute,
                private router: Router, private firebase: FirebaseService ) {}
@@ -78,6 +78,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                 investedAmount: e.payload.doc.data().investedAmount,
                 bettingType: e.payload.doc.data().bettingType,
                 horseNumber: e.payload.doc.data().horseNumber,
+                type: this.shortenBettingType(e.payload.doc.data().bettingType),
                 details: 'd'
               };
           });
@@ -98,6 +99,20 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(a);
     this.showSpinner = false;
 
+  }
+  shortenBettingType(type: string) {
+    if ( type === 'WINNER' ) {
+      return 'W';
+    }
+    if ( type === 'PLACE' ) {
+      return 'P';
+    }
+    if ( type === 'SHP' ) {
+      return 'S';
+    }
+    if ( type === 'THP' ) {
+      return 'T';
+    }
   }
 
   convertToDate(timestamp: any) {
