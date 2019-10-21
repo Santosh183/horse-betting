@@ -96,7 +96,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
-    this.subscriptions.push(a);
+    this.subscriptions.push(e);
     this.showSpinner = false;
 
   }
@@ -135,7 +135,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRefComplete.afterClosed().subscribe(raceCompleteData => {
+    let d = dialogRefComplete.afterClosed().subscribe(raceCompleteData => {
       console.log(raceCompleteData); // return true on confirmation
 
 
@@ -186,6 +186,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       }
 
     });
+    this.subscriptions.push(d);
   }
 
 
@@ -414,7 +415,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       data: { } // pass some data of race so that we can delete correct race
     });
 
-    dialogRefDelete.afterClosed().subscribe(result => {
+    let o = dialogRefDelete.afterClosed().subscribe(result => {
       console.log(result); // return true on confirmation
       if (result === true) {
 
@@ -474,6 +475,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.subscriptions.push(o);
   }
 
   ngOnDestroy() {

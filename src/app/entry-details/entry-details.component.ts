@@ -29,11 +29,12 @@ export class EntryDetailsComponent implements OnInit, OnDestroy {
     this.currentRaceId = this.route.snapshot.params.raceId;
     this.currentEntryId = this.route.snapshot.params.entryId;
 
-    this.firebase.getRace(this.currentRaceId).subscribe(
+    let p = this.firebase.getRace(this.currentRaceId).subscribe(
       (race) => {
         this.race.status = race.payload.data()["status"];
       }
     );
+    this.subscriptions.push(p);
 
 
     const u = this.firebase.getUsers(); // needed to get exact user which we want to delete

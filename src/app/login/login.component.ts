@@ -14,22 +14,52 @@ export class LoginComponent implements OnInit {
     password: ''
   };
   errorMessage = '';
+  signedIn = false;
   constructor(private authService: AuthService, public ngZone: NgZone,
-              private  router: Router) { }
+              private  router: Router) {
+
+    let p =
+    this.authService.signedInEvent.subscribe(
+      (signedIn) => {
+        this.signedIn = signedIn;
+      }
+    );
+
+  }
 
   ngOnInit() {
+    this.authService.isSignedIn();
+
   }
 
   login() {
-    this.authService.signIn(this.loginData.email, this.loginData.password).then((result) => {
-      this.ngZone.run(() => {
+    if (this.signedIn) {
+      this.authService.signOut().then(
+        () => {
+          this.authService.signIn(this.loginData.email, this.loginData.password).then((result) => {
+            this.ngZone.run(() => {
+              this.authService.isSignedIn();
+              this.router.navigate(['userlist']);
+            });
+          }).catch((error) => {
+            this.errorMessage = error.message;
+            localStorage.setItem('user', '');
+            this.authService.isSignedIn();
+          });
+        }
+      );
+    } else {
+      this.authService.signIn(this.loginData.email, this.loginData.password).then((result) => {
+        this.ngZone.run(() => {
+          this.authService.isSignedIn();
+          this.router.navigate(['userlist']);
+        });
+      }).catch((error) => {
+        this.errorMessage = error.message;
+        localStorage.setItem('user', '');
         this.authService.isSignedIn();
-        this.router.navigate(['userlist']);
       });
-    }).catch((error) => {
-      this.errorMessage = error.message;
-      localStorage.setItem('user', null);
-    });
+    }
   }
 
 }

@@ -50,7 +50,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    for( let i = 0; i< this.subscriptions.length ; i++) {
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < this.subscriptions.length ; i++) {
       this.subscriptions[i].unsubscribe();
     }
   }

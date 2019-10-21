@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
 
@@ -9,11 +8,12 @@ import { FirebaseService } from '../firebase-service/firebase.service';
   styleUrls: ['./add-race.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AddRaceComponent implements OnInit {
+export class AddRaceComponent implements OnInit, OnDestroy {
 
   constructor( private router: Router, private firebase: FirebaseService)  { }
 
   minDate = new Date();
+  subscriptions: any[]  = [];
   errorMessage = '';
   race: any = {
     raceDate: null,
@@ -35,7 +35,7 @@ export class AddRaceComponent implements OnInit {
     } else if (this.race.raceHorses <= 0) {
       this.errorMessage = 'total horses can not be zero or negative';
     } else {
-      this.firebase.getRaces().subscribe(
+      let p = this.firebase.getRaces().subscribe(
         (races) => {
           this.errorMessage = '';
           if (races.length === 0) {
@@ -60,10 +60,17 @@ export class AddRaceComponent implements OnInit {
           console.log(error);
         }
       );
+      this.subscriptions.push(p);
     }
   }
   goBack() {
     this.router.navigate(['/racelist']);
   }
 
+  ngOnDestroy() {
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < this.subscriptions.length; i++) {
+      this.subscriptions[i].unsubscribe();
+    }
+  }
 }

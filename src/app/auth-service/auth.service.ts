@@ -15,11 +15,16 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+        let now = new Date().getTime();
+        localStorage.setItem( 'user', JSON.stringify({ value: JSON.stringify(this.userData), timestamp: now}));
+        if ( localStorage.getItem('user') !== '') {
+          JSON.parse(localStorage.getItem('user'));
+        }
       } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', '');
+        if ( localStorage.getItem('user') !== '') {
+          JSON.parse(localStorage.getItem('user'));
+        }
       }
     });
 
@@ -37,8 +42,17 @@ export class AuthService {
   }
 
   isSignedIn() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    this.signedInEvent.emit((user !== null ) ? true : false);
+
+    if ( localStorage.getItem('user') !== '' ) {
+      const token = JSON.parse(localStorage.getItem('user'));
+      let now = new Date().getTime();
+      let temp = (now - token.timestamp) < 600000;
+      this.signedInEvent.emit((token !== ''  && temp) ? true : false);
+    } else {
+      this.signedInEvent.emit(false);
+    }
+
+
   }
 
 }

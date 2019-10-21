@@ -26,8 +26,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user.userNumber = this.route.snapshot.params['id'];
     this.currentUserId = null;
-    const s = this.firebase.getUser(this.user.userNumber);
-    s.subscribe(
+    const s = this.firebase.getUser(this.user.userNumber).subscribe(
       (user: any) => {
        this.user =  user.map(e => {
           this.currentUserId = e.payload.doc.id;
@@ -43,6 +42,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+    this.subscriptions.push(s);
   }
   goBack() {
     this.location.back();

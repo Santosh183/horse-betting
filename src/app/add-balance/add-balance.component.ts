@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { FormControl } from '@angular/forms';
@@ -10,7 +10,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './add-balance.component.html',
   styleUrls: ['./add-balance.component.scss']
 })
-export class AddBalanceComponent implements OnInit {
+export class AddBalanceComponent implements OnInit, OnDestroy {
 
   user = {
     userId: null,
@@ -18,6 +18,7 @@ export class AddBalanceComponent implements OnInit {
     userName: '',
     userBalance: null
   };
+  subscriptions: any[] = [];
   balance: number = null;
   users: any[] = [];
   myControl = new FormControl();
@@ -57,6 +58,7 @@ export class AddBalanceComponent implements OnInit {
         });
       }
     );
+    this.subscriptions.push(p);
   }
 
   private _filter(value: string): string[] {
@@ -100,6 +102,15 @@ export class AddBalanceComponent implements OnInit {
   }
   goBack() {
     this.router.navigate(['/userlist']);
+  }
+
+  ngOnDestroy() {
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < this.subscriptions.length; i++ ) {
+
+      this.subscriptions[i].unsubscribe();
+
+    }
   }
 
 

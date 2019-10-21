@@ -20,6 +20,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   };
   races: any[] = [];
   currentUserId: any;
+  allUserEntries: any[] = [];
   constructor(public dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private firebase: FirebaseService) {
   }
@@ -49,7 +50,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     const x = this.firebase.getRaces();
     let f = x.subscribe(
     (races) => {
-      this.races = races.map(e => {
+        this.races = races.map(e => {
             return {
               raceId: e.payload.doc.id,
               raceHorses: e.payload.doc.data()[ 'raceHorses'],
@@ -59,9 +60,38 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
               details: 'd'
             };
         });
+        for ( let i = 0; i < this.races.length; i++) {
+
+          let r = this.firebase.getRaceEntries(this.races[i].raceId).subscribe(
+            (entry) => {
+              let tempEntry: any[] =  entry.map(e => {
+                return {
+                  entryId: e.payload.doc.id,
+                  raceId: this.races[i].raceId,
+                  rank: e.payload.doc.data().rank,
+                  rate: e.payload.doc.data().rate,
+                  taxRate: e.payload.doc.data().taxRate,
+                  userNumber: e.payload.doc.data().userNumber,
+                  userName: e.payload.doc.data().userName,
+                  investedAmount: e.payload.doc.data().investedAmount,
+                  bettingType: e.payload.doc.data().bettingType,
+                  horseNumber: e.payload.doc.data().horseNumber
+                };
+              });
+              // tslint:disable-next-line:prefer-for-of
+              for ( let j = 0; j < tempEntry.length; j++) {
+                if (this.user.userNumber === tempEntry[j].userNumber ) {
+                  this.allUserEntries.push(tempEntry[j]);
+                }
+              }
+            }
+          );
+          this.subscriptions.push(r);
+        }
       }
     );
     this.subscriptions.push(f);
+    // tslint:disable-next-line:prefer-for-of
 
   }
 
@@ -70,56 +100,38 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       data: {userNumber: this.user.userNumber}
     });
 
+    let g =
     dialogRef.afterClosed().subscribe(result => {
       if ( result === true) {
 
         this.showSpinner = true;
+
         // tslint:disable-next-line:prefer-for-of
-        for ( let i = 0; i < this.races.length; i++) {
-          this.firebase.getRaceEntries(this.races[i].raceId).subscribe(
-            (entry) => {
-              let tempEntry: any[] =  entry.map(e => {
-
-                    return {
-                      entryId: e.payload.doc.id,
-                      rank: e.payload.doc.data().rank,
-                      rate: e.payload.doc.data().rate,
-                      taxRate: e.payload.doc.data().taxRate,
-                      userNumber: e.payload.doc.data().userNumber,
-                      userName: e.payload.doc.data().userName,
-                      investedAmount: e.payload.doc.data().investedAmount,
-                      bettingType: e.payload.doc.data().bettingType,
-                      horseNumber: e.payload.doc.data().horseNumber
-                    };
-              });
-
-              // tslint:disable-next-line:prefer-for-of
-              for (let j = 0; j < tempEntry.length; j++) {
-                if (this.user.userNumber === tempEntry[j].userNumber) {
-                  this.firebase.deleteEntry(this.races[i].raceId, tempEntry[j].entryId).then(
-                    () => {
-                      if ( i === this.races.length - 1 && j === tempEntry.length - 1 ) {
-                        this.firebase.deleteUser(this.currentUserId).then(
-                          () => {
-                            this.showSpinner = false;
-                            this.router.navigate(['/userlist']);
-                          }
-                        );
-                      }
-                    }
-                  );
-                }
+        for ( let j = 0; j < this.allUserEntries.length; j++) {
+          this.firebase.deleteEntry(this.allUserEntries[j].raceId, this.allUserEntries[j].entryId).then(
+            () => {
+              if ( j === this.allUserEntries.length - 1) {
+                this.firebase.deleteUser(this.currentUserId).then(
+                  () => {
+                    this.showSpinner = false;
+                    this.router.navigate(['/userlist']);
+                  }
+                );
               }
-
-
-            },
-            (error) => {
-              console.log(error);
+            }
+          );
+        }
+        if (this.allUserEntries.length === 0) {
+          this.firebase.deleteUser(this.currentUserId).then(
+            () => {
+              this.showSpinner = false;
+              this.router.navigate(['/userlist']);
             }
           );
         }
       }
     });
+    this.subscriptions.push(g);
   }
 
 

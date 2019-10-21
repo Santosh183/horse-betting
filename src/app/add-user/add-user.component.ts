@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { Router } from '@angular/router';
 
@@ -7,13 +7,14 @@ import { Router } from '@angular/router';
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnDestroy {
 
   user = {
     userNumber: null,
     userName: '',
     userBalance: null
   };
+  subscriptions: any[] = [];
   errorMessage = '';
   constructor( private router: Router,
                private firebase: FirebaseService) { }
@@ -33,6 +34,7 @@ export class AddUserComponent implements OnInit {
     } else if ( this.user.userNumber <= 0 ) {
       this.errorMessage = 'User number can not be zero or negative';
     } else {
+      let p =
       this.firebase.getUsers().subscribe(
         (users) => {
           this.errorMessage = '';
@@ -57,11 +59,20 @@ export class AddUserComponent implements OnInit {
           console.log(error);
         }
       );
+      this.subscriptions.push(p);
     }
   }
   goBack() {
     this.router.navigate(['/userlist']);
   }
 
+  ngOnDestroy() {
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < this.subscriptions.length; i++ ) {
+
+      this.subscriptions[i].unsubscribe();
+
+    }
+  }
 
 }
