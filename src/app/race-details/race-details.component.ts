@@ -286,6 +286,19 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
       this.race.raceEntries[i].resultChange = (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate)
         - (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].taxRate / 100);
 
+      if (raceCompleteData.cancelled.length > 0) {
+        if ( this.race.raceEntries[i].bettingType === 'WINNER') {
+          this.race.raceEntries[i].resultChange = this.race.raceEntries[i].resultChange -
+          (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate) *
+          (raceCompleteData.winnerDeductionPercentage / 100 );
+        }
+        if ( this.race.raceEntries[i].bettingType === 'PLACE') {
+          this.race.raceEntries[i].resultChange = this.race.raceEntries[i].resultChange -
+          (this.race.raceEntries[i].investedAmount *  this.race.raceEntries[i].rate) *
+          (raceCompleteData.rankDeductionPercentage / 100 );
+        }
+      }
+
       let tempObject =   {...this.race.raceEntries[i]};
       delete tempObject.details;
       delete tempObject.entryId;
