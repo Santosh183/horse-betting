@@ -101,34 +101,43 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
 
     let g =
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
+      try {
       if ( result === true) {
 
         this.showSpinner = true;
-
+        let deletePromiseArray= [];
         // tslint:disable-next-line:prefer-for-of
         for ( let j = 0; j < this.allUserEntries.length; j++) {
-          this.firebase.deleteEntry(this.allUserEntries[j].raceId, this.allUserEntries[j].entryId).then(
-            () => {
-              if ( j === this.allUserEntries.length - 1) {
-                this.firebase.deleteUser(this.currentUserId).then(
-                  () => {
-                    this.showSpinner = false;
-                    this.router.navigate(['/userlist']);
-                  }
-                );
-              }
-            }
-          );
+          deletePromiseArray.push(this.firebase.deleteEntry(this.allUserEntries[j].raceId, this.allUserEntries[j].entryId));
+          // .then(
+          //   () => {
+              // if ( j === this.allUserEntries.length - 1) {
+              //   this.firebase.deleteUser(this.currentUserId).then(
+              //     () => {
+              //       this.showSpinner = false;
+              //       this.router.navigate(['/userlist']);
+              //     }
+              //   );
+              // }
+          //   }
+          // );
         }
-        if (this.allUserEntries.length === 0) {
-          this.firebase.deleteUser(this.currentUserId).then(
-            () => {
-              this.showSpinner = false;
-              this.router.navigate(['/userlist']);
-            }
-          );
-        }
+        await Promise.all(deletePromiseArray);
+        await this.firebase.deleteUser(this.currentUserId);
+        this.showSpinner = false;
+        this.router.navigate(['/userlist']);
+        // if (this.allUserEntries.length === 0) {
+        //   this.firebase.deleteUser(this.currentUserId).then(
+        //     () => {
+        //       this.showSpinner = false;
+        //       this.router.navigate(['/userlist']);
+        //     }
+        //   );
+        // }
+      }
+    }  catch(err){
+        console.log("User-detail:: openDeleteDialog :: Error", err)
       }
     });
     this.subscriptions.push(g);
