@@ -3,6 +3,7 @@ import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../firebase-service/firebase.service';
+import { ExcelService } from '../excel-service/excel.service';
 
 @Component({
   selector: 'app-user-details',
@@ -22,7 +23,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   currentUserId: any;
   allUserEntries: any[] = [];
   constructor(public dialog: MatDialog, private route: ActivatedRoute,
-              private router: Router, private firebase: FirebaseService) {
+              private router: Router, private firebase: FirebaseService,
+              private excelService: ExcelService) {
   }
 
   ngOnInit() {
@@ -56,8 +58,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
               raceHorses: e.payload.doc.data()[ 'raceHorses'],
               raceNumber: e.payload.doc.data()[ 'raceNumber'],
               raceDate: e.payload.doc.data()[ 'raceDate'],
-              status: e.payload.doc.data()[ 'status'],
-              details: 'd'
+              status: e.payload.doc.data()[ 'status']
             };
         });
         for ( let i = 0; i < this.races.length; i++) {
@@ -68,7 +69,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
                 return {
                   entryId: e.payload.doc.id,
                   raceId: this.races[i].raceId,
+                  raceNumber: this.races[i].raceNumber,
+                  raceStatus: this.races[i].status,
+                  raceDate: this.races[i].raceDate,
                   rank: e.payload.doc.data().rank,
+                  resultChange: e.payload.doc.data().resultChange,
                   rate: e.payload.doc.data().rate,
                   taxRate: e.payload.doc.data().taxRate,
                   userNumber: e.payload.doc.data().userNumber,
@@ -91,7 +96,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       }
     );
     this.subscriptions.push(f);
-    // tslint:disable-next-line:prefer-for-of
 
   }
 
@@ -110,37 +114,49 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:prefer-for-of
         for ( let j = 0; j < this.allUserEntries.length; j++) {
           deletePromiseArray.push(this.firebase.deleteEntry(this.allUserEntries[j].raceId, this.allUserEntries[j].entryId));
-          // .then(
-          //   () => {
-              // if ( j === this.allUserEntries.length - 1) {
-              //   this.firebase.deleteUser(this.currentUserId).then(
-              //     () => {
-              //       this.showSpinner = false;
-              //       this.router.navigate(['/userlist']);
-              //     }
-              //   );
-              // }
-          //   }
-          // );
         }
         await Promise.all(deletePromiseArray);
         await this.firebase.deleteUser(this.currentUserId);
         this.showSpinner = false;
         this.router.navigate(['/userlist']);
-        // if (this.allUserEntries.length === 0) {
-        //   this.firebase.deleteUser(this.currentUserId).then(
-        //     () => {
-        //       this.showSpinner = false;
-        //       this.router.navigate(['/userlist']);
-        //     }
-        //   );
-        // }
       }
-    }  catch(err){
-        console.log("User-detail:: openDeleteDialog :: Error", err)
+    }  catch ( err ) {
+        console.log('User-detail:: openDeleteDialog :: Error", err');
       }
     });
     this.subscriptions.push(g);
+  }
+
+
+  exportExcel() {
+    let excelEntries =
+    this.allUserEntries.map(
+      (entry) => {
+        return {
+          user_no: entry.userNumber,
+          user_name: entry.userName,
+          rae_no: entry.raceNumber,
+          investment: entry.investedAmount,
+          result: entry.resultChange,
+          race_status: entry.raceStatus,
+          race_date: this.convertToDate(entry.raceDate),
+          rank: entry.rank,
+          rate: entry.rate,
+          tax_rate: entry.taxRate,
+          betting_type: entry.bettingType,
+          horse_no: entry.horseNumber,
+        };
+
+      }
+    );
+    this.excelService.exportAsExcelFile(excelEntries, this.user.userNumber + '_' + this.user.userName);
+  }
+
+  convertToDate(timestamp: any) {
+    let d =  new Date(timestamp.seconds * 1000);
+    d = new Date(d.getTime() + Math.abs(d.getTimezoneOffset() * 60000));
+    const temp = d.toISOString().slice(0, 10).split('-');
+    return temp[2] + '-' + temp[1] + '-' + temp[0];
   }
 
 
