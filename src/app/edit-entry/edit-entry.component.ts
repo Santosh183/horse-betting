@@ -15,6 +15,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
   bets: any[] = [
     'WINNER', 'PLACE', 'SHP', 'THP'
   ];
+  showProcess = false;
   errorMessage = '';
   errorFieldName = '';
   currentRaceId: any;
@@ -104,6 +105,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
 
     this.errorFieldName = '';
     this.errorMessage = '';
+    this.showProcess = true;
 
     let tempUser = this.users.find(
       (user) => {
@@ -117,7 +119,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
     for(let i=0; i< this.users.length; i++) {
 
       if ( this.users[i].userNumber === this.entry.userNumber) {
-        if ( 0.85 * tempUser.userBalance <  this.entry.investedAmount  ) {
+        if ( tempUser.userBalance <   0.85 * this.entry.investedAmount  ) {
             this.errorMessage = 'Insufficient Balance';
         }
       }
@@ -161,11 +163,14 @@ export class EditEntryComponent implements OnInit, OnDestroy {
           this.firebase.updateEntry(this.currentRaceId, this.currentEntryId, this.entry).then(
             () => {
               console.log('entry modified');
+              this.showProcess = false;
               this.location.back();
             }
           );
         }
       );
+    } else {
+      this.showProcess = false;
     }
   }
 

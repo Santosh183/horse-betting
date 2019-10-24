@@ -126,7 +126,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     for(let i=0; i< this.users.length; i++) {
 
       if ( this.users[i].userNumber === this.entry.userNumber) {
-        if ( 0.85 * this.users[i].userBalance <  this.entry.investedAmount  ) {
+        if (  this.users[i].userBalance < 0.85 * this.entry.investedAmount  ) {
             this.errorMessage = 'Insufficient Balance';
         }
       }
@@ -183,6 +183,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           );
         }
       );
+    } else {
+      this.showProcess = false;
     }
 
   }
