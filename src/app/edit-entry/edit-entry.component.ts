@@ -117,7 +117,7 @@ export class EditEntryComponent implements OnInit, OnDestroy {
     for(let i=0; i< this.users.length; i++) {
 
       if ( this.users[i].userNumber === this.entry.userNumber) {
-        if ( 0.9 * tempUser.userBalance <  this.entry.investedAmount  ) {
+        if ( 0.85 * tempUser.userBalance <  this.entry.investedAmount  ) {
             this.errorMessage = 'Insufficient Balance';
         }
       }
