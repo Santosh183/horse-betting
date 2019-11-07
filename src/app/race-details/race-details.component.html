@@ -1,19 +1,53 @@
 <div *ngIf="!showSpinner; else spinner" class="col-12 main-container p-0 pr-1 pl-1 ">
   <div class="info col-12">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+    <div class="col-6 col-sm-12 col-md-6 col-lg-6 ">
       <span class="label">Race No: </span>
       <span class="data"> {{race.raceNumber}}</span>
     </div>
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-6 col-sm-12 col-md-6 col-lg-6">
       <span class="label">Total Horses: </span>
       <span class="data"> {{race.raceHorses}}</span>
     </div>
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-6 col-sm-12 col-md-6 col-lg-6">
       <span class="label">Race Date: </span>
       <span class="data"> {{this.convertToDate(race.raceDate)}}</span>
     </div>
-    <div *ngIf="race.status == 'completed'" class="col-12 col-sm-12 col-md-6 col-lg-6">
-      <span class="label">Winners </span>
+
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Cancelled Horses: </span>
+      <span class="data">
+        <span *ngFor="let horse of race.cancelledHorses" >
+            {{horse + ', '}}
+        </span>
+      </span>
+    </div>
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">SHP Rate: </span>
+      <span class="data">
+        {{race.SHP_rate}}
+      </span>
+    </div>
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">THP Rate: </span>
+      <span class="data">
+        {{race.THP_rate}}
+      </span>
+    </div>
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Winner Deduction: </span>
+      <span class="data">
+        {{race.winnerDeduction}}
+      </span>
+    </div>
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Winner Deduction: </span>
+      <span class="data">
+        {{race.rankDeduction}}
+      </span>
+    </div>
+
+    <div *ngIf="race.status == 'completed'" class="col-6 col-sm-12 col-md-6 col-lg-6">
+      <span class="label">Winners: </span>
       <span class="data">
         <span class="first mr-2">
           <svg  viewBox="-32 0 511 512"  xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +69,7 @@
           <b>{{race.raceWinners[2]}}</b></span>
       </span>
     </div>
-    <div class="buttons col-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="buttons col-6 col-sm-12 col-md-6 col-lg-6">
       <button *ngIf="race.status == 'pending'" (click)="navigateToAddEntry()" class="add-entry">+ Add Entry</button>
       <button *ngIf="race.status == 'pending' && race.raceEntries.length > 0" (click)="openCompleteDialog()" class="complete-race">Complete Race</button>
       <button (click)="openDeleteDialog()" class="delete-race">Delete Race</button>

@@ -23,7 +23,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span class="title">horse-betting</span>
+      <span class="title">Entertainment</span>
       <span class="spacer"></span>
       <div *ngIf="(isHandset$ | async) === false && signedIn">
         <a mat-list-item [routerLink]="['/userlist']">User List</a>

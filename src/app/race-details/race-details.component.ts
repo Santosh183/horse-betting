@@ -20,6 +20,11 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
   race: any = {
     raceNumber: null,
     raceWinners: [],
+    cancelledHorses: [],
+    SHP_rate: null,
+    THP_rate: null,
+    winnerDeduction: null,
+    rankDeduction: null,
     raceHorses: null,
     raceDate: null,
     status: null,
@@ -61,6 +66,11 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         this.race.raceHorses = race.payload.data().raceHorses;
         this.race.status = race.payload.data().status;
         this.race.raceDate = race.payload.data().raceDate;
+        this.race.cancelledHorses =  race.payload.data().cancelledHorses ;
+        this.race.SHP_rate = race.payload.data().SHP_rate ;
+        this.race.THP_rate = race.payload.data().THP_rate ;
+        this.race.winnerDeduction = race.payload.data().winnerDeduction ;
+        this.race.rankDeduction = race.payload.data().rankDeduction ;
        }
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
@@ -144,6 +154,13 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         this.race.raceWinners[0] = raceCompleteData.winners.first;
         this.race.raceWinners[1] = raceCompleteData.winners.second;
         this.race.raceWinners[2] = raceCompleteData.winners.third;
+
+        this.race.cancelledHorses = [...raceCompleteData.cancelled];
+        this.race.SHP_rate =  raceCompleteData.SHPRate;
+        this.race.THP_rate =  raceCompleteData.THPRate;
+        this.race.winnerDeduction = raceCompleteData.rankDeductionPercentage;
+        this.race.rankDeduction = raceCompleteData.winnerDeductionPercentage;
+
         this.showSpinner = true;
         this.flag = false;
         // tslint:disable-next-line:prefer-for-of
@@ -159,9 +176,10 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
 
               this.processWinner( 2, i, raceCompleteData);
 
-          } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2]
+          } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2] // .......
             &&  ( this.race.raceEntries[i].bettingType === 'THP' ||
-             (this.race.raceEntries[i].bettingType === 'PLACE' &&  this.race.raceHorses > 8) )
+             (this.race.raceEntries[i].bettingType === 'PLACE' &&
+             (this.race.raceHorses - raceCompleteData.cancelled.length) > 8) )
             ) {
 
               this.processWinner( 3, i, raceCompleteData);

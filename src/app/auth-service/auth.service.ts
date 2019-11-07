@@ -46,7 +46,7 @@ export class AuthService {
     if ( localStorage.getItem('user') !== '' ) {
       const token = JSON.parse(localStorage.getItem('user'));
       let now = new Date().getTime();
-      let temp = (now - token.timestamp) < 600000;
+      let temp = (now - token.timestamp) < 1800000;
       this.signedInEvent.emit((token !== ''  && temp) ? true : false);
     } else {
       this.signedInEvent.emit(false);

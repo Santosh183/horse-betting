@@ -58,7 +58,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
               raceHorses: e.payload.doc.data()[ 'raceHorses'],
               raceNumber: e.payload.doc.data()[ 'raceNumber'],
               raceDate: e.payload.doc.data()[ 'raceDate'],
-              status: e.payload.doc.data()[ 'status']
+              status: e.payload.doc.data()[ 'status'],
+              cancelledHorses: e.payload.doc.data()['cancelledHorses'] ,
+              SHP_rate: e.payload.doc.data()['SHP_rate'] ,
+              THP_rate: e.payload.doc.data()['THP_rate'] ,
+              winnerDeduction: e.payload.doc.data()['winnerDeduction'] ,
+              rankDeduction: e.payload.doc.data()['rankDeduction']
             };
         });
         for ( let i = 0; i < this.races.length; i++) {
@@ -132,23 +137,101 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     let excelEntries =
     this.allUserEntries.map(
       (entry) => {
-        return {
-          user_no: entry.userNumber,
-          user_name: entry.userName,
-          rae_no: entry.raceNumber,
-          investment: entry.investedAmount,
-          result: entry.resultChange,
-          race_status: entry.raceStatus,
-          race_date: this.convertToDate(entry.raceDate),
-          rank: entry.rank,
-          rate: entry.rate,
-          tax_rate: entry.taxRate,
-          betting_type: entry.bettingType,
-          horse_no: entry.horseNumber,
-        };
+
+        let race = this.races.find(
+          (race) => {
+            return race.raceNumber === entry.raceNumber;
+          }
+        );
+        let temp = '';
+        for ( let i = 0; i < race.cancelledHorses.length; i++) {
+          if( i === race.cancelledHorses.length - 1) {
+            temp = temp + race.cancelledHorses[i];
+          } else {
+            temp = temp + race.cancelledHorses[i] + ', ';
+          }
+        }
+        if ( entry.bettingType === 'SHP') {
+          return {
+            user_no: entry.userNumber,
+            user_name: entry.userName,
+            race_no: entry.raceNumber,
+            horse_no: entry.horseNumber,
+            investment: entry.investedAmount,
+            rank: entry.rank,
+            result: entry.resultChange,
+            race_status: entry.raceStatus,
+            race_date: this.convertToDate(entry.raceDate),
+            rate: race.SHP_rate,
+            deductionRate: 0,
+            deduction_amount: 0,
+            cancelled_horses: temp,
+            tax_rate: entry.taxRate,
+            betting_type: entry.bettingType,
+          };
+        }
+        if ( entry.bettingType === 'THP') {
+          return {
+            user_no: entry.userNumber,
+            user_name: entry.userName,
+            race_no: entry.raceNumber,
+            horse_no: entry.horseNumber,
+            investment: entry.investedAmount,
+            rank: entry.rank,
+            result: entry.resultChange,
+            race_status: entry.raceStatus,
+            race_date: this.convertToDate(entry.raceDate),
+            rate: race.THP_rate,
+            deductionRate: 0,
+            deduction_amount: 0,
+            cancelled_horses: temp,
+            tax_rate: entry.taxRate,
+            betting_type: entry.bettingType,
+          };
+        }
+        if ( entry.bettingType === 'WINNER') {
+          return {
+            user_no: entry.userNumber,
+            user_name: entry.userName,
+            race_no: entry.raceNumber,
+            horse_no: entry.horseNumber,
+            investment: entry.investedAmount,
+            rank: entry.rank,
+            result: entry.resultChange,
+            race_status: entry.raceStatus,
+            race_date: this.convertToDate(entry.raceDate),
+            rate: entry.rate,
+            deductionRate: race.winnerDeduction,
+            deduction_amount: (entry.investedAmount * entry.rate * race.winnerDeduction) / 100,
+            cancelled_horses: temp,
+            tax_rate: entry.taxRate,
+            betting_type: entry.bettingType,
+          };
+        }
+        if ( entry.bettingType === 'PLACE') {
+          return {
+            user_no: entry.userNumber,
+            user_name: entry.userName,
+            race_no: entry.raceNumber,
+            horse_no: entry.horseNumber,
+            investment: entry.investedAmount,
+            rank: entry.rank,
+            result: entry.resultChange,
+            race_status: entry.raceStatus,
+            race_date: this.convertToDate(entry.raceDate),
+            rate: entry.rate,
+            deductionRate: race.winnerDeduction,
+            deduction_amount: (entry.investedAmount * entry.rate * race.rankDeduction) / 100,
+            cancelled_horses: temp,
+            tax_rate: entry.taxRate,
+            betting_type: entry.bettingType,
+          };
+        }
+
 
       }
     );
+    
     this.excelService.exportAsExcelFile(excelEntries, this.user.userNumber + '_' + this.user.userName);
   }
 
