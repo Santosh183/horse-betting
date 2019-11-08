@@ -74,8 +74,10 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         this.race.rankDeduction = race.payload.data().rankDeduction ;
        }
        this.showThird = true;
-       if (this.race.raceHorses - this.race.cancelledHorses.length < 8) {
-        this.showThird = false;
+       if ( this.race.cancelledHorses ) {
+         if (this.race.raceHorses - this.race.cancelledHorses.length < 8) {
+          this.showThird = false;
+         }
        }
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
