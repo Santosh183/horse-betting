@@ -16,6 +16,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
   flag = false;
   subscriptions: any[] = [];
   users: any[] = [];
+  showThird = true;
   showSpinner = false;
   race: any = {
     raceNumber: null,
@@ -72,6 +73,10 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
         this.race.winnerDeduction = race.payload.data().winnerDeduction ;
         this.race.rankDeduction = race.payload.data().rankDeduction ;
        }
+       this.showThird = true;
+       if (this.race.raceHorses - this.race.cancelledHorses.length < 8) {
+        this.showThird = false;
+       }
 
        const entries = this.firebase.getRaceEntries(this.currentRaceId);
        let b = entries.subscribe(
@@ -108,6 +113,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.push(e);
     this.showSpinner = false;
+
 
   }
   shortenBettingType(type: string) {
