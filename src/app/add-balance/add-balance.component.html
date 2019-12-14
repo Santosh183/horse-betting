@@ -4,7 +4,7 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>User No.</mat-label>
-    <input  type="number" placeholder="User No." aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
+    <input  autocomplete="off"   type="number" placeholder="User No." aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let user of filteredUsers | async" [value]="user.userNumber">
           {{user.userNumber}}
@@ -15,14 +15,14 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>User Name</mat-label>
-    <input disabled [(ngModel)]="user.userName"  matInput placeholder="Enter Name of user">
+    <input  autocomplete="off"  disabled [(ngModel)]="user.userName"  autofocus matInput placeholder="Enter Name of user">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Balance</mat-label>
-    <input [(ngModel)]="balance" type="number" matInput placeholder="Balance">
+    <input  autocomplete="off"  [(ngModel)]="balance" type="number" matInput placeholder="Balance">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>

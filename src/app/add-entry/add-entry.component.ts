@@ -178,7 +178,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
             () => {
               console.log('balance updated for added user');
               this.showProcess = false;
-              this.location.back();
             }
           );
         }

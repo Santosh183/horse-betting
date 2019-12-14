@@ -4,21 +4,21 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Unique User No.</mat-label>
-    <input type="number" [(ngModel)]="user.userNumber" matInput placeholder="Enter  user no">
+    <input  autocomplete="off"   autofocus type="number" [(ngModel)]="user.userNumber" matInput placeholder="Enter  user no">
     <mat-hint>enter number which is not in past user list</mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>User Name</mat-label>
-    <input [(ngModel)]="user.userName"  matInput placeholder="Enter Name of user">
+    <input  autocomplete="off"  [(ngModel)]="user.userName"  matInput placeholder="Enter Name of user">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Balance</mat-label>
-    <input [(ngModel)]="user.userBalance" type="number" matInput placeholder="Balance">
+    <input  autocomplete="off"  [(ngModel)]="user.userBalance" type="number" matInput placeholder="Balance">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>

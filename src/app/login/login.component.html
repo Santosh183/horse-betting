@@ -4,14 +4,14 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Email Id</mat-label>
-    <input type="text" [(ngModel)]="loginData.email" matInput placeholder="sample@example.com">
+    <input  autocomplete="off"  type="text" [(ngModel)]="loginData.email" matInput placeholder="sample@example.com">
     <mat-hint>enter email id</mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Password</mat-label>
-    <input type="password" [(ngModel)]="loginData.password"  matInput placeholder="enter password">
+    <input  autocomplete="off"  type="password" [(ngModel)]="loginData.password"  matInput placeholder="enter password">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>

@@ -35,14 +35,14 @@
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>SHP rate</mat-label>
-    <input (keyup)="toggleButton()" [(ngModel)]="raceFinishData.SHPRate" type="number" matInput placeholder="SHP rate">
+    <input  autocomplete="off"  (keyup)="toggleButton()" [(ngModel)]="raceFinishData.SHPRate" type="number" matInput placeholder="SHP rate">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>THP rate</mat-label>
-    <input (keyup)="toggleButton()" [(ngModel)]="raceFinishData.THPRate" type="number" matInput placeholder="THP rate">
+    <input  autocomplete="off"  (keyup)="toggleButton()" [(ngModel)]="raceFinishData.THPRate" type="number" matInput placeholder="THP rate">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
@@ -57,14 +57,14 @@
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>-% place</mat-label>
-    <input [(ngModel)]="raceFinishData.rankDeductionPercentage" type="number" matInput placeholder="% rank cut">
+    <input  autocomplete="off"  [(ngModel)]="raceFinishData.rankDeductionPercentage" type="number" matInput placeholder="% rank cut">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3 p-0">
   <mat-form-field appearance="legacy">
     <mat-label>-% winner</mat-label>
-    <input [(ngModel)]="raceFinishData.winnerDeductionPercentage" type="number" matInput placeholder="% winner cut">
+    <input  autocomplete="off"  [(ngModel)]="raceFinishData.winnerDeductionPercentage" type="number" matInput placeholder="% winner cut">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>

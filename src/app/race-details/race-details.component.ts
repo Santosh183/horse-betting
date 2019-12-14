@@ -187,7 +187,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
           } else  if (this.race.raceEntries[i].horseNumber === this.race.raceWinners[2] // .......
             &&  ( this.race.raceEntries[i].bettingType === 'THP' ||
              (this.race.raceEntries[i].bettingType === 'PLACE' &&
-             (this.race.raceHorses - raceCompleteData.cancelled.length) >= 8) )
+             (this.race.raceHorses) >= 8) )
             ) {
 
               this.processWinner( 3, i, raceCompleteData);

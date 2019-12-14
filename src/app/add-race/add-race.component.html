@@ -4,20 +4,20 @@
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>Unique Race No.</mat-label>
-    <input type="number"  [(ngModel)]="race.raceNumber" matInput placeholder="Enter  Race no">
+    <input  autocomplete="off"   autofocus type="number"  [(ngModel)]="race.raceNumber" matInput placeholder="Enter  Race no">
     <mat-hint>enter number which is not in past race list</mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field appearance="legacy">
     <mat-label>NO of horses</mat-label>
-    <input [(ngModel)]="race.raceHorses" type="number" matInput placeholder="Enter number of horses">
+    <input  autocomplete="off"  [(ngModel)]="race.raceHorses" type="number" matInput placeholder="Enter number of horses">
     <mat-hint> </mat-hint>
   </mat-form-field>
 </p>
 <p class="col-12 col-sm-12 col-md-6 col-lg-4 mt-3">
   <mat-form-field class="example-full-width">
-    <input [(ngModel)]="race.raceDate" matInput [min]="minDate"  [matDatepicker]="picker" placeholder="Choose a date" disabled>
+    <input  autocomplete="off"  [(ngModel)]="race.raceDate" matInput [min]="minDate"  [matDatepicker]="picker" placeholder="Choose a date" disabled>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker disabled="false"></mat-datepicker>
   </mat-form-field>

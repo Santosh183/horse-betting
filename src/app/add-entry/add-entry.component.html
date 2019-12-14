@@ -5,7 +5,7 @@
   <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
     <mat-form-field appearance="legacy">
       <mat-label>User No.</mat-label>
-      <input  type="number" placeholder="User No." aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
+      <input  autocomplete="off"   autofocus type="number" placeholder="User No." aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let user of filteredUsers | async" [value]="user.userNumber">
             {{user.userNumber}}
@@ -16,7 +16,7 @@
   <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
     <mat-form-field appearance="legacy">
       <mat-label>User Name</mat-label>
-      <input [(ngModel)]="entry.userName" type="text" disabled matInput placeholder="User Name">
+      <input  autocomplete="off"  [(ngModel)]="entry.userName" type="text" disabled matInput placeholder="User Name">
       <mat-hint> </mat-hint>
     </mat-form-field>
   </p>
@@ -45,14 +45,14 @@
   <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
     <mat-form-field appearance="legacy">
       <mat-label>Invested Amount</mat-label>
-      <input [(ngModel)]="entry.investedAmount" type="number" matInput placeholder="Enter amount to invest">
+      <input  autocomplete="off"  [(ngModel)]="entry.investedAmount" type="number" matInput placeholder="Enter amount to invest">
       <mat-hint> </mat-hint>
     </mat-form-field>
   </p>
   <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
     <mat-form-field appearance="legacy">
       <mat-label>Rate</mat-label>
-      <input [(ngModel)]="entry.rate" [disabled]="(entry.bettingType === 'THP' || entry.bettingType === 'SHP')?'true':'false'" 
+      <input  autocomplete="off"  [(ngModel)]="entry.rate" [disabled]="(entry.bettingType === 'THP' || entry.bettingType === 'SHP')?'true':'false'" 
         type="number" matInput placeholder="Rate">
       <mat-hint> mostly it's very small </mat-hint>
     </mat-form-field>
@@ -60,7 +60,7 @@
   <p class="data col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
     <mat-form-field appearance="legacy">
       <mat-label>Tax</mat-label>
-      <input [(ngModel)]="entry.taxRate" disabled type="number" matInput placeholder="Tax ">
+      <input  autocomplete="off"  [(ngModel)]="entry.taxRate" disabled type="number" matInput placeholder="Tax ">
       <mat-hint> % charge</mat-hint>
     </mat-form-field>
   </p>
