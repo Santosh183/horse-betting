@@ -97,6 +97,12 @@
         <td class="horse-no" mat-cell *matCellDef="let element"> {{element.horseNumber}} </td>
       </ng-container>
 
+       <!-- BETTINGTYPE Column -->
+       <ng-container matColumnDef="type">
+        <th class="type" mat-header-cell *matHeaderCellDef> B.T. </th>
+        <td class="type" mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
       <!-- amount Column -->
       <ng-container matColumnDef="investedAmount">
         <th class="amount" mat-header-cell *matHeaderCellDef> Amount </th>
@@ -108,12 +114,7 @@
         <th class="rate" mat-header-cell *matHeaderCellDef> Rate </th>
         <td class="rate" mat-cell *matCellDef="let element"> {{element.rate}} </td>
       </ng-container>
-
-      <!-- BETTINGTYPE Column -->
-      <ng-container matColumnDef="type">
-        <th class="type" mat-header-cell *matHeaderCellDef> B.T. </th>
-        <td class="type" mat-cell *matCellDef="let element"> {{element.type}} </td>
-      </ng-container>
+     
 
       <!-- details Column -->
       <ng-container matColumnDef="details">
