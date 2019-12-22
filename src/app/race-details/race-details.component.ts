@@ -32,7 +32,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
     raceEntries: [ ]
   };
   currentRaceId: any = null;
-  displayedColumns = [ 'userNumber', 'userName', 'horseNumber', 'investedAmount', 'rate', 'type','details'];
+  displayedColumns = [ 'userNumber', 'userName', 'horseNumber', 'type', 'investedAmount', 'rate', 'details'];
 
   constructor( public dialog: MatDialog, private route: ActivatedRoute,
                private router: Router, private firebase: FirebaseService ) {}
