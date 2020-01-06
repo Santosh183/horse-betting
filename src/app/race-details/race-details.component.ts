@@ -14,6 +14,7 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
 
 
   flag = false;
+  totalUserProfitLoss = 0;
   subscriptions: any[] = [];
   users: any[] = [];
   showThird = true;
@@ -95,11 +96,16 @@ export class RaceDetailsComponent implements OnInit, OnDestroy {
                 investedAmount: e.payload.doc.data().investedAmount,
                 bettingType: e.payload.doc.data().bettingType,
                 horseNumber: e.payload.doc.data().horseNumber,
+                resultChange: e.payload.doc.data().resultChange,
                 type: this.shortenBettingType(e.payload.doc.data().bettingType),
                 details: 'd'
               };
           });
           this.race.raceEntries.reverse();
+          // tslint:disable-next-line:prefer-for-of
+          for ( let i = 0 ; i < this.race.raceEntries.length; i++) {
+            this.totalUserProfitLoss = this.totalUserProfitLoss + this.race.raceEntries[i].resultChange;
+          }
 
         },
         (error) => {

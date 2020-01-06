@@ -48,6 +48,24 @@ export class UserListComponent implements OnInit, OnDestroy {
   newUser() {
     this.router.navigate(['/newuser']);
   }
+  copyUsers() {
+      let val = '';
+      // tslint:disable-next-line:prefer-for-of
+      for ( let i = 0 ; i < this.dataSource.length; i++) {
+        val = val + this.dataSource[i].user_no + ' # ' + this.dataSource[i].name + ' --->   ' + this.dataSource[i].balance + '\n';
+      }
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = val;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+  }
 
   ngOnDestroy() {
     // tslint:disable-next-line:prefer-for-of
